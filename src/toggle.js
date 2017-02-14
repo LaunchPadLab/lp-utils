@@ -1,4 +1,5 @@
 import React from 'react'
+import camelCase from 'lodash/camelCase'
 import getDisplayName from './get-display-name'
 
 /*
@@ -22,20 +23,35 @@ export default function (...toggles) {
 
       constructor () {
         super()
+
+        /*
+         * The active state of each toggle
+         */
         this.state = toggles.reduce((state, toggle) =>
           ({ ...state, [toggleStateName(toggle)]: false }),
           {}
         )
+
+        /*
+         * The toggle functions
+         */
         this.toggles = toggles.reduce((togglers, toggle) =>
           ({ ...togglers, [toggleFuncName(toggle)]: this.toggle.bind(this, toggleStateName(toggle)) }),
           {}
         )
       }
 
+      /*
+       * Toggle the active state for the provided toggle name
+       */
       toggle (toggleName) {
         this.setState(prevState => ({ ...prevState, [toggleName]: !prevState[toggleName] }))
       }
 
+      /*
+       * Render the wrapped component with provided props, the active states of
+       * the toggles and the toggle functions.
+       */
       render () {
         return (
           <WrappedComponent
@@ -49,9 +65,9 @@ export default function (...toggles) {
 }
 
 function toggleStateName (toggle) {
-  return `${toggle}Active`
+  return camelCase([toggle, 'active'].join(' '))
 }
 
 function toggleFuncName (toggle) {
-  return `toggle${toggle}`
+  return camelCase(['toggle', toggle].join(' '))
 }
