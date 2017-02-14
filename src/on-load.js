@@ -27,7 +27,8 @@ export default function (renderWhen, LoadingComponent=null) {
           return renderWhen(this.props)
         }
         if (typeof renderWhen === 'string') {
-          return getOr(null, renderWhen, this.props) !== 'loading'
+          const value = getOr(null, renderWhen, this.props)
+          return value && value !== 'loading'
         }
         return true
       }

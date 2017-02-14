@@ -36,7 +36,7 @@ Returns a higher order component (HOC) to handle conditional logic for loading s
 #### Arguments
 ###### renderWhen
 + `function(props)`: A function that returns true when the wrapped component may render. Will be passed the current props.
-+ `<path>`: A string path to a value in the current props. When the value is 'loading' the wrapped component will render.
++ `<path>`: A string path to a value in the current props. When the value is present and not 'loading' the wrapped component will render.
 
 ###### [LoadingComponent]
 + `Component`: A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered.
