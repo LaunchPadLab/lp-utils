@@ -1,8 +1,8 @@
 import validateJs from 'validate.js'
-import flatToNested from 'flat-to-nested'
 import capitalize from 'lodash/capitalize'
 import lowerCase from 'lodash/lowerCase'
 import mapValues from 'lodash/mapValues' // not using fp on purpose
+import flatToNested from './flat-to-nested'
 
 /*
  * Switch the order of arguments, partially apply constraints, specify error format
