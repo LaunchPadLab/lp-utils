@@ -11,9 +11,9 @@
   },
   "license": "UNLICENSED",
   "scripts": {
-    "build": "mkdir -p lib && babel src --out-file lib/index.js --no-comments --minified",
+    "build": "mkdir -p lib && babel src --out-dir lib --no-comments --minified",
     "clean": "rimraf lib",
-    "dev": "mkdir -p lib && babel src --watch --out-file lib/index.js",
+    "dev": "mkdir -p lib && babel src --watch --out-dir lib",
     "lint": "eslint src",
     "prepublish": "npm run lint && npm run clean && npm run build",
     "test": "jest"
@@ -23,11 +23,11 @@
     "lib/"
   ],
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "validate.js": "^0.11.1"
   },
   "peerDependencies": {
-    "react": "^15.4.2",
-    "validate.js": "^0.11.1"
+    "react": "^15.4.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -45,7 +45,6 @@
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",
-    "rimraf": "^2.5.4",
-    "validate.js": "^0.11.1"
+    "rimraf": "^2.5.4"
   }
 }
