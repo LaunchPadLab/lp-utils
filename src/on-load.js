@@ -1,5 +1,6 @@
 import React from 'react'
 import getOr from 'lodash/fp/getOr'
+import stubTrue from 'lodash/stubTrue'
 import getDisplayName from './get-display-name'
 
 /*
@@ -7,6 +8,8 @@ import getDisplayName from './get-display-name'
  * state.
  */
 export default function (renderWhen, LoadingComponent=null) {
+
+  const renderWrapped = getRenderWrapped(renderWhen)
 
   return WrappedComponent =>
 
@@ -22,22 +25,11 @@ export default function (renderWhen, LoadingComponent=null) {
        */
       static WrappedComponent = WrappedComponent
 
-      renderWhenFn () {
-        if (typeof renderWhen === 'function') {
-          return renderWhen(this.props)
-        }
-        if (typeof renderWhen === 'string') {
-          const value = getOr(null, renderWhen, this.props)
-          return value && value !== 'loading'
-        }
-        return true
-      }
-
       render () {
-        if (this.renderWhenFn()) {
+        if (renderWrapped(this.props)) {
           return <WrappedComponent { ...this.props }/>
         }
-
+        
         if (LoadingComponent) {
           return <LoadingComponent { ...this.props }/>
         }
@@ -45,4 +37,28 @@ export default function (renderWhen, LoadingComponent=null) {
         return <p>Loading...</p>
       }
     }
+}
+
+function getRenderWrapped (renderWhen) {
+
+  const type = typeof renderWhen
+
+  switch(type) {
+    case 'function':
+      return renderWhen
+    case 'string':
+      return function (props) {
+        const value = getOr(null, renderWhen, props)
+        return value && value !== 'loading'
+      }
+    case 'object':
+      return function (props) {
+        return Object.keys(renderWhen).every(prop => {
+          const value = getOr(null, prop, props)
+          return value && value === renderWhen[prop]
+        })
+      }
+    default:
+      return stubTrue
+  }
 }

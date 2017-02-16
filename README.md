@@ -3,29 +3,6 @@ A set of utility functions and higher order components (HOC) for use in React an
 
 ## Api
 
-
-### `createExcludeAuth({ isAuthenticated, onAuthenticated })`
-Returns a higher order component to prevent rendering the wrapped component if the user IS logged in.
-
-#### Arguments
-###### isAuthenticated
-+ `function()`: a function that returns true if the user is authenticated.
-
-###### onAuthenticated
-+ `function()`: an action creator to be dispatched if the user IS authenticated.
-
-
-### `createRequireAuth({ isAuthenticated, onNotAuthenticated })`
-Returns a higher order component to prevent rendering the wrapped component if the user IS NOT logged in.
-
-#### Arguments
-###### isAuthenticated
-+ `function()`: a function that returns true if the user is authenticated.
-
-###### onNotAuthenticated
-+ `function()`: an action creator to be dispatched if the user is NOT authenticated.
-
-
 ### `getDisplayName(Component)`
 A helper method for getting the display name for any type of component. This is helpful when creating a name for a higher order component using the name of the wrapped component.
 
@@ -37,6 +14,7 @@ Returns a higher order component (HOC) to handle conditional logic for loading s
 ###### renderWhen
 + `function(props)`: A function that returns true when the wrapped component may render. Will be passed the current props.
 + `<path>`: A string path to a value in the current props. When the value is present and not 'loading' the wrapped component will render.
++ `{ key1: <val1>, ... }`: An object where the keys are string paths to values in the current props and values are the required values of those props for the wrapped component to be render. All key-value pairs must be satisfied.
 
 ###### [LoadingComponent]
 + `Component`: A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered.

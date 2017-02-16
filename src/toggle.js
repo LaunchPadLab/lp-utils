@@ -21,8 +21,8 @@ export default function (...toggles) {
        */
       static WrappedComponent = WrappedComponent
 
-      constructor () {
-        super()
+      constructor (props) {
+        super(props)
 
         /*
          * The active state of each toggle

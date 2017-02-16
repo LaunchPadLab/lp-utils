@@ -1,18 +1,22 @@
-{
-  "parser": "babel-eslint",
-  "plugins": [],
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
-  "ecmaFeatures": {
-    "experimentalObjectRestSpread": true,
-    "jsx": true,
-    "modules": true
-  },
-  "extends": "eslint:recommended",
-  "rules": {
-    "no-unused-vars": 0
-  }
-}
+---
+  env:
+    browser: true
+    node: true
+    jasmine: true
+    jest: true
+  parser: babel-eslint
+  parserOptions:
+    sourceType: module
+    ecmaFeatures:
+      experimentalObjectRestSpread: true
+      jsx: true
+      impliedStrict: true
+  plugins:
+    - react
+  extends:
+    - eslint:recommended
+    - plugin:react/recommended
+    - plugin:import/errors
+    - plugin:import/warnings
+  rules:
+    no-unused-vars: 0

@@ -1,13 +1,12 @@
-import test from 'ava'
 import nestedToFlat from '../src/nested-to-flat'
 import flatToNested from '../src/flat-to-nested'
 
-test('1 level', t => {
+test('1 level', () => {
   const obj = { foo: 'bar' }
-  t.deepEqual(nestedToFlat(obj), obj)
+  expect(nestedToFlat(obj)).toEqual(obj)
 })
 
-test('deep', t => {
+test('deep', () => {
   const obj = {
     foo: 'bar',
     baz: {
@@ -21,7 +20,7 @@ test('deep', t => {
     },
   }
 
-  t.deepEqual(nestedToFlat(obj), {
+  expect(nestedToFlat(obj)).toEqual({
     foo: 'bar',
     'baz.ryan.dave': 9,
     'baz.dave': 'ryan',
@@ -29,7 +28,7 @@ test('deep', t => {
   })
 })
 
-test('reciprocal', t => {
+test('reciprocal', () => {
   const obj = {
     foo: 'bar',
     'baz.ryan.dave': 9,
@@ -37,5 +36,5 @@ test('reciprocal', t => {
     'baz.ifat': ['foo', 'bar'],
   }
 
-  t.deepEqual(nestedToFlat(flatToNested(obj)), obj)
+  expect(nestedToFlat(flatToNested(obj))).toEqual(obj)
 })
