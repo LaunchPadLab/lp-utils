@@ -37,6 +37,36 @@ Returns a higher order component (HOC) that will invoke the provided function du
 ###### onComponentDidUpdate
 + `function(props, prevProps)`: A function to be invoked during the `componentDidUpdate` lifecycle event. Will be passed the current props and the previous props.
 
+### `selectorForSlice(slicePath)`
+A Redux helper. Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
+
+Ex.
+```
+import { selectorForSlice } from 'lp-utils'
+
+const state = {
+  userSlice: {
+    user: {
+      name: 'test'
+    }
+  }
+}
+
+const select = selectorForSlice('userSlice')
+
+// The resulting select() function has arguments (path, defaultValue)
+
+const Selectors = {}
+Selectors.user = select('user')
+Selectors.username = select('user.name', 'defaultName')
+
+export { Selectors }
+
+// These selectors can be called in mapStateToProps() like so:
+// Selectors.user(state) => { name: 'test' }
+// Selectors.username(state) => 'test'
+
+```
 
 
 ### `toggle(toggleName1, [toggleName2, ...])`
