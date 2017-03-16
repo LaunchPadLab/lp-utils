@@ -1,3 +1,5 @@
+[ ![Codeship Status for LaunchPadLab/lp-utils](https://app.codeship.com/projects/54a4f610-ec93-0134-81d5-1ac2cf405306/status?branch=master)](https://app.codeship.com/projects/208365)
+
 # LP Utils
 A set of utility functions and higher order components (HOC) for use in React and Redux apps.
 
@@ -73,15 +75,17 @@ export { Selectors }
 Returns a higher order component (HOC) that will provide a toggle value and toggle function to the wrapped component.
 
 #### Arguments
-##### toggles
+##### toggle
 + `<string>, [<string, ...]`: One to many toggle names. For each toggle name, the wrapped component will receive the following props:
  + `<toggleName>Active`: a boolean with the current state of the toggle, default = false.
  + `toggle<ToggleName>`: a function that will toggle the toggle!
 
+Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
+
 Ex.
 ```
-import React from 'react'
-import { toggle } from 'lp-utils'
+import React, { PropTypes } from 'react'
+import { toggle, togglePropTypes } from 'lp-utils'
 
 function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
@@ -98,8 +102,15 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   )
 }
 
+ComponentWithTooltip.propTypes = {
+  ...togglePropTypes('tooltip'),
+  message: PropTypes.string
+}
+
 export default toggle('tooltip')(ComponentWithTooltip)
 ```
+
+
 
 ### `validate(constraints)`
 A wrapper around the Validate.js `validate` method that returns `function(attributes)` to be used to validate an object provided by Redux Form. This handles transforming the constraints and results to work seamlessly with Redux Form even for nested data.

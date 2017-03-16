@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import camelCase from 'lodash/camelCase'
 import getDisplayName from './get-display-name'
 
@@ -71,3 +71,13 @@ function toggleStateName (toggle) {
 function toggleFuncName (toggle) {
   return camelCase(['toggle', toggle].join(' '))
 }
+
+export function togglePropTypes (...toggles) {
+  const propTypes = {}
+  toggles.forEach((toggle) => {
+    propTypes[toggleStateName(toggle)] = PropTypes.bool
+    propTypes[toggleFuncName(toggle)] = PropTypes.func
+  })
+  return propTypes
+}
+
