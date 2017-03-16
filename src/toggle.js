@@ -55,9 +55,9 @@ export default function (...toggles) {
       render () {
         return (
           <WrappedComponent
-            { ...this.props }
             { ...this.state }
             { ...this.toggles }
+            { ...this.props }
           />
         )
       }
