@@ -1,3 +1,5 @@
+[ ![Codeship Status for LaunchPadLab/lp-utils](https://app.codeship.com/projects/54a4f610-ec93-0134-81d5-1ac2cf405306/status?branch=master)](https://app.codeship.com/projects/208365)
+
 # LP Utils
 A set of utility functions and higher order components (HOC) for use in React and Redux apps.
 
