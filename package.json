@@ -17,7 +17,7 @@
     "clean": "rimraf lib",
     "docs": "documentation build src/index.js -f md -o docs.md",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run clean && npm run build",
+    "prepublish": "npm run clean && npm run build",
     "test": "jest"
   },
   "files": [
