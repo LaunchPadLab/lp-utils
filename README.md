@@ -9,7 +9,10 @@ Documenation and usage information can be found in [docs.md](docs.md). These doc
 The original documentation may be found in [legacy-docs.md](legacy-docs.md).
 
 ## Feature Requests
-For new requests, please submit an issue or PR with the label of `idea`, and include a description of the change and why it is necessary. Pull requests MUST be approved by someone on the team before merging into master.
+For new requests, please submit an issue or PR with the label of `idea`, and include a description of the change and why it is necessary.
+
+## Pull Requests and Deployments
+Pull requests MUST be approved by someone on the team before merging into master. Once the PR is approved, the implementor should bump the version according to semantic versioning with `yarn version`. Once merged, the master branch will automatically be published the newest version to NPM.
 
 ## Development
 * `git clone git@github.com:LaunchPadLab/lp-utils.git`
