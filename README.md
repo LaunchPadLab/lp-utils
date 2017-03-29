@@ -26,6 +26,8 @@ If you are developing and want to see the results in a local client application:
 
 Changes will be immediately compiled and available to the client application.
 
+*Warning:* Remember to unlink the library and use a real version before submitting a pull request for the client application. Forgetting to do so may cause you to push up code which works locally but breaks on the review app.
+
 ## Testing
 This library uses [Jest](https://facebook.github.io/jest/) for unit testing, run with `yarn run test`.
 
