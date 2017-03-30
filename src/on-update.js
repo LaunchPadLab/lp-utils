@@ -1,11 +1,30 @@
 import React from 'react'
 import getDisplayName from './get-display-name'
 
-/*
- * A function that returns a React HOC to handle logic to be run during
- * the `componentDidUpdate` lifecycle event.
- */
-export default function (onComponentDidUpdate) {
+/**
+ * A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
+ *
+ * See also: {@link onMount}.
+ * 
+ * @param {Function} onComponentDidUpdate - A function that will be passed the current props and the previous props.
+ * @returns {Function} - A HOC that can be used to wrap a component.
+ * @example
+ *
+ *  function MyComponent () {
+ *    return (
+ *      ...
+ *    )
+ *  }
+ *
+ *  function componentDidUpdate (currentProps, previousProps) {
+ *    console.log('Props updated!', currentProps, previousProps) 
+ *  }
+ *
+ *  export default onUpdate(componentDidUpdate)(MyComponent)
+ *
+**/
+ 
+export default function onUpdate (onComponentDidUpdate) {
 
   return WrappedComponent =>
 

@@ -26,15 +26,6 @@ Returns a higher order component (HOC) that will invoke the provided function du
 ###### onComponentDidMount
 + `function(props)`: A function to be invoked during the `componentDidMount` lifecycle event. Will be passed the current props.
 
-
-
-### `onUpdate(onComponentDidUpdate)`
-Returns a higher order component (HOC) that will invoke the provided function during the `componentDidUpdate` lifecycle event.
-
-#### Arguments
-###### onComponentDidUpdate
-+ `function(props, prevProps)`: A function to be invoked during the `componentDidUpdate` lifecycle event. Will be passed the current props and the previous props.
-
 ### `selectorForSlice(slicePath)`
 A Redux helper. Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
 

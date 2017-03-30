@@ -4,6 +4,7 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
+-   [onUpdate](#onupdate)
 
 ## flatToNested
 
@@ -64,3 +65,31 @@ nestedToFlat(nestedObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
+
+## onUpdate
+
+A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
+
+See also: [onMount](onMount).
+
+**Parameters**
+
+-   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidUpdate (currentProps, previousProps) {
+   console.log('Props updated!', currentProps, previousProps) 
+ }
+
+ export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
