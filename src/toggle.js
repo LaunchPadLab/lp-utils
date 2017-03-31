@@ -2,9 +2,42 @@ import React, { PropTypes } from 'react'
 import camelCase from 'lodash/camelCase'
 import getDisplayName from './get-display-name'
 
-/*
- * A function that returns a React HOC to handle basic toggling logic.
- */
+/**
+ * A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
+ * For each toggle name given, the wrapped component will receive the following props:
+ *
+ * `<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
+ *
+ * `toggle<ToggleName>`: a function that will toggle the toggle value.
+ *
+ * Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
+ * 
+ * @param {...string} toggles - One or more toggle names.
+ * @returns {Function} - A HOC that can be used to wrap a component.
+ *
+ *
+ * @example
+ *
+ * function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
+ *   return (
+ *     <div>
+ *       <button onClick={ toggleTooltip }>Click Me</button>
+ *       { 
+ *         tooltipActive &&
+ *         <div className="tooltip">
+ *           { message }
+ *         </div>
+ *       }
+ *     </div>
+ *   )
+ * }
+ * 
+ * ComponentWithTooltip.propTypes = {
+ *   ...togglePropTypes('tooltip'),
+ *   message: PropTypes.string
+ *
+**/
+
 export default function (...toggles) {
 
   return WrappedComponent =>
