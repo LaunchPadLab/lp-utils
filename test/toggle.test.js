@@ -1,31 +1,28 @@
 import React, { PropTypes } from 'react'
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import compose from 'lodash/fp/compose'
-import { toggle, togglePropTypes, onUpdate, onMount } from '../src/'
+import { toggle, togglePropTypes } from '../src/'
 
-test('toggle provides a toggle value and function', (done) => {
-
-  // Calls the toggle function on mount, then makes sure the value is toggled on update
+test('toggle provides a toggle value and function', () => {
 
   const Wrapped = () => <h1>Hi</h1>
 
-  const onMountFunction = ({ testActive, toggleTest }) => {
-    expect(testActive).toBe(false)
-    toggleTest()
-  }
-
-  const onUpdateFunction = ({ testActive }) => {
-    expect(testActive).toBe(true)
-    done()
-  }
-
   const Wrapper = compose(
-    toggle('test'),
-    onMount(onMountFunction),
-    onUpdate(onUpdateFunction),
+    toggle('test')
   )(Wrapped)
 
-  mount(<Wrapper/>)
+  const component = shallow(<Wrapper/>)
+
+  // Check props
+  const { testActive, toggleTest } = component.props()
+  expect(testActive).toBe(false)
+  expect(typeof toggleTest).toBe('function')
+
+  // Call toggle
+  toggleTest()
+  expect(component.props().testActive).toBe(true)
+  toggleTest()
+  expect(component.props().testActive).toBe(false)
 })
 
 test('toggleProptypes creates proptypes with the correct name and value', () => {
