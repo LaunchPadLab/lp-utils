@@ -57,48 +57,6 @@ export { Selectors }
 
 ```
 
-
-### `toggle(toggleName1, [toggleName2, ...])`
-Returns a higher order component (HOC) that will provide a toggle value and toggle function to the wrapped component.
-
-#### Arguments
-##### toggle
-+ `<string>, [<string, ...]`: One to many toggle names. For each toggle name, the wrapped component will receive the following props:
- + `<toggleName>Active`: a boolean with the current state of the toggle, default = false.
- + `toggle<ToggleName>`: a function that will toggle the toggle!
-
-Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
-
-Ex.
-```
-import React, { PropTypes } from 'react'
-import { toggle, togglePropTypes } from 'lp-utils'
-
-function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
-  return (
-    <div>
-      <button onClick={ toggleTooltip }>Click Me</button>
-
-      { tooltipActive &&
-        <div className="tooltip">
-          { message }
-        </div>
-      }
-    </div>
-
-  )
-}
-
-ComponentWithTooltip.propTypes = {
-  ...togglePropTypes('tooltip'),
-  message: PropTypes.string
-}
-
-export default toggle('tooltip')(ComponentWithTooltip)
-```
-
-
-
 ### `validate(constraints)`
 A wrapper around the Validate.js `validate` method that returns `function(attributes)` to be used to validate an object provided by Redux Form. This handles transforming the constraints and results to work seamlessly with Redux Form even for nested data.
 

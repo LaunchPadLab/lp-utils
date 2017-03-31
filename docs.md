@@ -5,6 +5,7 @@
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
 -   [onUpdate](#onupdate)
+-   [toggle](#toggle)
 
 ## flatToNested
 
@@ -90,6 +91,45 @@ function MyComponent () {
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## toggle
+
+A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
+For each toggle name given, the wrapped component will receive the following props:
+
+`<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
+
+`toggle<ToggleName>`: a function that will toggle the toggle value.
+
+Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
+
+**Parameters**
+
+-   `toggles` **...[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One or more toggle names.
+
+**Examples**
+
+```javascript
+function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
+  return (
+    <div>
+      <button onClick={ toggleTooltip }>Click Me</button>
+      { 
+        tooltipActive &&
+        <div className="tooltip">
+          { message }
+        </div>
+      }
+    </div>
+  )
+}
+
+ComponentWithTooltip.propTypes = {
+  ...togglePropTypes('tooltip'),
+  message: PropTypes.string
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
