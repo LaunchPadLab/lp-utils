@@ -26,37 +26,6 @@ Returns a higher order component (HOC) that will invoke the provided function du
 ###### onComponentDidMount
 + `function(props)`: A function to be invoked during the `componentDidMount` lifecycle event. Will be passed the current props.
 
-### `selectorForSlice(slicePath)`
-A Redux helper. Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
-
-Ex.
-```
-import { selectorForSlice } from 'lp-utils'
-
-const state = {
-  userSlice: {
-    user: {
-      name: 'test'
-    }
-  }
-}
-
-const select = selectorForSlice('userSlice')
-
-// The resulting select() function has arguments (path, defaultValue)
-
-const Selectors = {}
-Selectors.user = select('user')
-Selectors.username = select('user.name', 'defaultName')
-
-export { Selectors }
-
-// These selectors can be called in mapStateToProps() like so:
-// Selectors.user(state) => { name: 'test' }
-// Selectors.username(state) => 'test'
-
-```
-
 ### `validate(constraints)`
 A wrapper around the Validate.js `validate` method that returns `function(attributes)` to be used to validate an object provided by Redux Form. This handles transforming the constraints and results to work seamlessly with Redux Form even for nested data.
 
