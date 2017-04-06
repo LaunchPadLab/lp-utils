@@ -28,11 +28,23 @@ export default function (onComponentDidMount) {
       componentDidMount () {
         const type = typeof onComponentDidMount
         switch(type) {
-          case 'string':
-            return this.props[onComponentDidMount]()
+          case 'string': {
+            const func = this.props[onComponentDidMount]
+            if (typeof func === 'undefined')
+              throw `
+                OnMount: You specified a string argument of '${onComponentDidMount}'
+                that should correspond to a prop in ${getDisplayName(WrappedComponent)}
+                but there is no prop with that key
+              `
+            return func()
+          }
           case 'function':
             return onComponentDidMount(this.props)
         }
+        throw `
+          OnMount: The argument provided to onMount must be a string or
+          function, you provided ${onComponentDidMount}
+        `
       }
 
       /*
