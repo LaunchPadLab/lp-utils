@@ -26,7 +26,13 @@ export default function (onComponentDidMount) {
        * any props.
        */
       componentDidMount () {
-        onComponentDidMount(this.props)
+        const type = typeof onComponentDidMount
+        switch(type) {
+          case 'string':
+            return this.props[onComponentDidMount]()
+          case 'function':
+            return onComponentDidMount(this.props)
+        }
       }
 
       /*
