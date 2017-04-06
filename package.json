@@ -1,6 +1,6 @@
 {
   "name": "@launchpadlab/lp-utils",
-  "version": "2.3.6",
+  "version": "2.4.0",
   "description": "Our Utilities",
   "main": "lib/index.js",
   "repository": "launchpadlab/lp-utils",
