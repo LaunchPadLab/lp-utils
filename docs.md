@@ -88,7 +88,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
+   console.log('Props updated!', currentProps, previousProps) 
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -157,7 +157,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      {
+      { 
         tooltipActive &&
         <div className="tooltip">
           { message }
