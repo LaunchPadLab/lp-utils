@@ -5,7 +5,7 @@
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
 -   [onUpdate](#onupdate)
--   [selectorForSlice](#selectorForSlice)
+-   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
 
 ## flatToNested
