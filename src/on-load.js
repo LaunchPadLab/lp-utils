@@ -3,10 +3,22 @@ import getOr from 'lodash/fp/getOr'
 import stubTrue from 'lodash/stubTrue'
 import getDisplayName from './get-display-name'
 
-/*
- * A function that returns a React HOC to handle renderWhenal logic for loading
- * state.
- */
+/**
+ * A function that returns a React HOC to handle renderWhenal logic for loading state.
+ *
+ * @param {Function} renderWhen - A function that returns true when the wrapped component may render. Will be passed the current props.
+ * @param {Function} LoadingComponent - A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered.
+ * @returns {Function} - Returns a higher order component (HOC) to handle conditional logic for loading states.
+ * @example
+ *
+ * function(props){
+ *    ....
+ *    `<path>`: A string path to a value in the current props. When the value is present and not 'loading' the wrapped component will render.
+ *    `{ key1: <val1>, ... }`: An object where the keys are string paths to values in the current props and values are the required values of those props for the wrapped component to be render. All key-value pairs must be satisfied.
+ * }
+ *
+**/
+
 export default function (renderWhen, LoadingComponent=null) {
 
   const renderWrapped = getRenderWrapped(renderWhen)
@@ -29,7 +41,7 @@ export default function (renderWhen, LoadingComponent=null) {
         if (renderWrapped(this.props)) {
           return <WrappedComponent { ...this.props }/>
         }
-        
+
         if (LoadingComponent) {
           return <LoadingComponent { ...this.props }/>
         }
