@@ -20,7 +20,7 @@ import getDisplayName from './get-display-name'
  *    console.log('Our current props: ', props)
  *  }
  *
- *  export default onUpdate(componentDidMount)(MyComponent)
+ *  export default onMount(componentDidMount)(MyComponent)
  *
 **/
 
