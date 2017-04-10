@@ -4,9 +4,9 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
--   [on-mount](#on-mount)
+-   [onMount](#on-mount)
 -   [onUpdate](#onupdate)
--   [selector-for-slice](#selector-for-slice)
+-   [selectorFoSlice](#selectoForSlice)
 -   [toggle](#toggle)
 
 ## flatToNested
@@ -118,7 +118,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps) 
+   console.log('Props updated!', currentProps, previousProps)
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -187,7 +187,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      { 
+      {
         tooltipActive &&
         <div className="tooltip">
           { message }
