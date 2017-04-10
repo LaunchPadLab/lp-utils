@@ -6,7 +6,7 @@
 -   [nestedToFlat](#nestedtoflat)
 -   [onMount](#on-mount)
 -   [onUpdate](#onupdate)
--   [selectorFoSlice](#selectoForSlice)
+-   [selectorForSlice](#selectorForSlice)
 -   [toggle](#toggle)
 
 ## flatToNested
@@ -126,7 +126,7 @@ function MyComponent () {
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## selector-for-slice
+## selectorForSlice
 
 A Redux helper.
 Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
