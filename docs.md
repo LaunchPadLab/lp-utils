@@ -4,8 +4,9 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
+-   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
--   [selectorForSlice](#selectorForSlice)
+-   [selector-for-slice](#selector-for-slice)
 -   [toggle](#toggle)
 
 ## flatToNested
@@ -68,6 +69,35 @@ nestedToFlat(nestedObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
+## on-mount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onMount](onMount).
+
+**Parameters**
+
+-   `onComponentDidMount` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be executed with the component's props.
+-   `onComponentDidMount` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A string reference to a function passed in as one of the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onUpdate(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
 ## onUpdate
 
 A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
@@ -88,7 +118,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
+   console.log('Props updated!', currentProps, previousProps) 
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -96,7 +126,7 @@ function MyComponent () {
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## selectorForSlice
+## selector-for-slice
 
 A Redux helper.
 Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
@@ -157,7 +187,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      {
+      { 
         tooltipActive &&
         <div className="tooltip">
           { message }

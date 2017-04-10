@@ -1,5 +1,29 @@
 import React from 'react'
 import getDisplayName from './get-display-name'
+/**
+ * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+ *
+ * See also: {@link onMount}.
+ *
+ * @param {Function} onComponentDidMount - A function that will be executed with the component's props.
+ * @param {String} onComponentDidMount - A string reference to a function passed in as one of the component's props.
+ * @returns {Function} - A HOC that can be used to wrap a component.
+ * @example
+ *
+ *  function MyComponent () {
+ *    return (
+ *      ...
+ *    )
+ *  }
+ *
+ *  function componentDidMount (props) {
+ *    console.log('Our current props: ', props)
+ *  }
+ *
+ *  export default onUpdate(componentDidMount)(MyComponent)
+ *
+**/
+
 
 /*
  * A function that returns a React HOC to handle logic to be run during
@@ -30,13 +54,13 @@ export default function (onComponentDidMount) {
         switch(type) {
           case 'string': {
             const func = this.props[onComponentDidMount]
-            if (typeof func === 'undefined')
+            if (!func)
               throw `
                 OnMount: You specified a string argument of '${onComponentDidMount}'
                 that should correspond to a prop in ${getDisplayName(WrappedComponent)}
                 but there is no prop with that key
               `
-            return func()
+            return func(this.props)
           }
           case 'function':
             return onComponentDidMount(this.props)
