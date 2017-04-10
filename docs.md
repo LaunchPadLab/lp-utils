@@ -93,7 +93,7 @@ function MyComponent () {
    console.log('Our current props: ', props)
  }
 
- export default onUpdate(componentDidMount)(MyComponent)
+ export default onMount(componentDidMount)(MyComponent)
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
@@ -102,7 +102,7 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
 
-See also: [onMount](onMount).
+See also: [onUpdate](onUpdate).
 
 **Parameters**
 
