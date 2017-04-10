@@ -4,7 +4,7 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
--   [onMount](#on-mount)
+-   [onMount](#onMount)
 -   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
@@ -102,7 +102,7 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
 
-See also: [onUpdate](onUpdate).
+See also: [onMount](onMount).
 
 **Parameters**
 
@@ -118,7 +118,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps) 
+   console.log('Props updated!', currentProps, previousProps)
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -187,7 +187,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      { 
+      {
         tooltipActive &&
         <div className="tooltip">
           { message }
