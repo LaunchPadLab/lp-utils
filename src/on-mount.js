@@ -54,7 +54,7 @@ export default function (onComponentDidMount) {
         switch(type) {
           case 'string': {
             const func = this.props[onComponentDidMount]
-            if (typeof unc === 'undefined')
+            if (typeof func === 'undefined')
               throw `
                 OnMount: You specified a string argument of '${onComponentDidMount}'
                 that should correspond to a prop in ${getDisplayName(WrappedComponent)}
