@@ -4,6 +4,7 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
+-   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
@@ -68,6 +69,34 @@ nestedToFlat(nestedObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
+## on-mount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUpdate](#onupdate).
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
 ## onUpdate
 
 A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
@@ -88,7 +117,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps) 
+   console.log('Props updated!', currentProps, previousProps)
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -157,7 +186,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      { 
+      {
         tooltipActive &&
         <div className="tooltip">
           { message }
