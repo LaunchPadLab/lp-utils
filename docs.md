@@ -5,7 +5,7 @@
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
 -   [onUpdate](#onupdate)
--   [on-load](#on-load)
+-   [onLoad](#onload)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
 
@@ -97,23 +97,27 @@ function MyComponent () {
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## on-load
+## onLoad
 
 A function that returns a React HOC to handle renderWhenal logic for loading state.
 
 **Parameters**
 
--   `renderWhen` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that returns true when the wrapped component may render. Will be passed the current props.
--   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?= null** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered.
+-   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** Returns true when the wrapped component may render. Will be passed the current props.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
 
 **Examples**
 
 ```javascript
-function(props){
-   ....
-   `<path>`: A string path to a value in the current props. When the value is present and not 'loading' the wrapped component will render.
-   `{ key1: <val1>, ... }`: An object where the keys are string paths to values in the current props and values are the required values of those props for the wrapped component to be render. All key-value pairs must be satisfied.
-}
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ let renderWhen = 'name'
+
+ export default onLoad(renderWhen, MyComponent)
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
