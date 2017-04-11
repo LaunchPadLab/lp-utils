@@ -3,10 +3,9 @@ import getDisplayName from './get-display-name'
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
  *
- * See also: {@link onMount}.
+ * See also: {@link onUpdate}.
  *
- * @param {Function} onComponentDidMount - A function that will be executed with the component's props.
- * @param {String} onComponentDidMount - A string reference to a function passed in as one of the component's props.
+ * @param {Function|String} onComponentDidMount - A function or a string reference to a function that will be executed with the component's props.
  * @returns {Function} - A HOC that can be used to wrap a component.
  * @example
  *

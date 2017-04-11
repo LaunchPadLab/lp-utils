@@ -6,9 +6,9 @@ test('`componentDidMount` is a function', () => {
   const Wrapped = () => <h1>hi</h1>
   const componentDidMount = jest.fn()
   const Wrapper = onMount(componentDidMount)(Wrapped)
-  const component = mount(<Wrapper />)
+  const component = mount(<Wrapper greeting='hola' />)
 
-  expect(componentDidMount).toHaveBeenCalled()
+  expect(componentDidMount).toHaveBeenCalledWith({ greeting: 'hola' })
 })
 
 test('`componentDidMount` is a string', () => {

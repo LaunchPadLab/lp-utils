@@ -4,7 +4,7 @@
 
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
--   [onMount](#onMount)
+-   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
@@ -73,12 +73,11 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
 
-See also: [onMount](onMount).
+See also: [onUpdate](#onupdate).
 
 **Parameters**
 
--   `onComponentDidMount` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be executed with the component's props.
--   `onComponentDidMount` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A string reference to a function passed in as one of the component's props.
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
 
 **Examples**
 
