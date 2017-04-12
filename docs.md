@@ -99,14 +99,14 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 ## onLoad
 
-A function that returns a React HOC to handle renderWhenal logic for loading state.
+A function that returns a React HOC to handle renderWhen logic for loading state.
 
 **Parameters**
 
 -   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** Returns true when the wrapped component may render. Will be passed the current props.
-    String - Returns true when string value is defined and not equal to 'loading'
-    Function - Returns a boolean when function is invoked
-    Object - Return true when all values in object are defined and when values are equivalent to any passed in props
+    String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
+    Function - Returns value when function is invoked that returns true
+    Object - Returns true when all values in object are defined and when values are equivalent to any passed in props
 -   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
 
 **Examples**
