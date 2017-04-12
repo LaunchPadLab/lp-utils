@@ -1,3 +1,4 @@
+export { default as deprecate } from './deprecate'
 export { default as flatToNested } from './flat-to-nested'
 export { default as getDisplayName } from './get-display-name'
 export { default as nestedToFlat } from './nested-to-flat'
