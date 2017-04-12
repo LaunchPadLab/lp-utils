@@ -2,12 +2,55 @@
 
 ### Table of Contents
 
+-   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
 -   [nestedToFlat](#nestedtoflat)
 -   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
+
+## deprecate
+
+A function that logs a deprecation warning in the console every time a given function is called.
+If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
+
+If no message is provided, the default deprecation message is:
+
+-   `<functionName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+// In my-func.js
+
+function myFunc () {
+  return 'hey!'
+}
+
+export default deprecate(myFunc, 'Do not use!')
+
+// In another file:
+
+import myFunc from './my-func'
+
+myFunc() // -> 'hey!'
+// Console will show warning: 'DEPRECATED: Do not use!'
+
+
+// If you're deprecating a React component, use deprecateComponent as an HOC:
+
+const MyComponent = () => <p>Hi</p>
+export default deprecateComponent('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
+```
 
 ## flatToNested
 

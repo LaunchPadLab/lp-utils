@@ -1,33 +1,44 @@
-import { deprecate } from '../src'
+import React from 'react'
+import { mount } from 'enzyme'
+import { deprecate, deprecateComponent } from '../src'
 
-test('logs out default message', () => {
-
+test('deprecate() logs out default message', () => {
   const logger = jest.fn()
 
   const func = () => 'hi'
   const deprecatedFunc = deprecate(func, '', logger)
+
+  const val = deprecatedFunc()
   
   const defaultMessage = 'DEPRECATED: func is deprecated and will be removed in the next version of this library.'
-  const messageLogged = logger.mock.calls.pop().pop()
-
-  expect(messageLogged).toEqual(defaultMessage)
-  expect(deprecatedFunc()).toEqual('hi')
+  expect(logger).toHaveBeenCalledWith(defaultMessage)
+  expect(val).toEqual('hi')
 })
 
-test('logs out custom message', () => {
-
+test('deprecate() logs out custom message', () => {
   const logger = jest.fn()
 
   const func = () => 'hi'
   const deprecatedFunc = deprecate(func, 'this is a custom deprecation message!', logger)
+
+  const val = deprecatedFunc()
   
   const defaultMessage = 'DEPRECATED: this is a custom deprecation message!'
-  const messageLogged = logger.mock.calls.pop().pop()
-
-  expect(messageLogged).toEqual(defaultMessage)
-  expect(deprecatedFunc()).toEqual('hi')
+  expect(logger).toHaveBeenCalledWith(defaultMessage)
+  expect(val).toEqual('hi')
 })
 
-test('rejects non-functions', () => {
+test('deprecate() rejects non-functions', () => {
   expect(() => deprecate()(666)).toThrow()
+})
+
+test('deprecateComponent() logs out default message', () => {
+  const logger = jest.fn()
+
+  const MyComponent = () => <p>Hi!</p>
+  const Deprecated = deprecateComponent('', logger)(MyComponent)
+  mount(<Deprecated/>)
+
+  const defaultMessage = 'DEPRECATED: MyComponent is deprecated and will be removed in the next version of this library.'
+  expect(logger).toHaveBeenCalledWith(defaultMessage)
 })
