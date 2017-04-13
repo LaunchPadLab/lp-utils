@@ -7,7 +7,7 @@ import getDisplayName from './get-display-name'
  * A function that returns a React HOC to handle renderWhen logic for loading state.
  *
  * @param {(String|Function|Object)} renderWhen - Returns true when the wrapped component may render. Will be passed the current props.
- * @description String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
+ * String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
  * Function - Returns value when function is invoked that returns true
  * Object - Returns true when all values in object are defined and when values are equivalent to any passed in props
  * @param {Function} [LoadingComponent = null] - A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered.
@@ -24,6 +24,7 @@ import getDisplayName from './get-display-name'
  *  let renderWhen = 'name'
  *
  *  onLoad(renderWhen, MyComponent)
+ *  // when prop 'name' value evaluates to true, MyComponent is rendered 
 **/
 
 export default function onLoad (renderWhen, LoadingComponent=null) {
