@@ -4,6 +4,7 @@
 
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
+-   [get-display-name](#get-display-name)
 -   [nestedToFlat](#nestedtoflat)
 -   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
@@ -81,6 +82,51 @@ flatToNested(flatObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
+
+## get-display-name
+
+Returns the component name if it is possible to determine, otherwise `Component`.
+
+For React classes and named functional components, the name will be returned. For inline
+functional components without a name, `Component` will be returned. If `displayName` is 
+explicitly set, then that will be returned.
+
+**Parameters**
+
+-   `Component` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A React component
+
+**Examples**
+
+```javascript
+// Inline functional component
+getDisplayName(() => <div></div>) // `Component`
+
+// Named functional components
+const Foo = () => <div></div>
+getDisplayName(Foo) // `Foo`
+
+function Foo () {
+  return <div></div>
+}
+getDisplayName(Foo) // `Foo`
+
+// Class
+class Foo extends React.Component {
+  render() {
+    return <div></div>
+  }
+}
+getDisplayName(Foo) // `Foo`
+
+// Explicit `displayName`
+class Foo extends React.Component {
+  static displayName = 'Bar'
+  render() { return <div></div> }
+ }
+getDisplayName(Foo)) // `Bar`
+```
+
+Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
 
 ## nestedToFlat
 
@@ -160,7 +206,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
+   console.log('Props updated!', currentProps, previousProps) 
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -229,7 +275,7 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
   return (
     <div>
       <button onClick={ toggleTooltip }>Click Me</button>
-      {
+      { 
         tooltipActive &&
         <div className="tooltip">
           { message }
