@@ -85,7 +85,9 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ## get-display-name
 
-Returns the component name if it is possible to determine, otherwise `Component`.
+Returns the component name if possible to determine, or just `Component`. This is helpful
+for higher order components to call on their `wrapped` component so the name that shows up
+in the React Dev Tools includes the name `wrapped` component making debugging much easier.
 
 For React classes and named functional components, the name will be returned. For inline
 functional components without a name, `Component` will be returned. If `displayName` is 
