@@ -21,10 +21,10 @@ import getDisplayName from './get-display-name'
  *    )
  *  }
  *
- *  let renderWhen = 'name'
+ *  const renderWhen = 'name'
  *
  *  onLoad(renderWhen, MyComponent)
- *  // when prop 'name' value evaluates to true, MyComponent is rendered 
+ *  // when prop 'name' value evaluates to true, MyComponent is rendered
 **/
 
 export default function onLoad (renderWhen, LoadingComponent=null) {
