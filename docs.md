@@ -4,7 +4,7 @@
 
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
--   [get-display-name](#get-display-name)
+-   [getDisplayName](#getdisplayname)
 -   [nestedToFlat](#nestedtoflat)
 -   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
@@ -83,7 +83,7 @@ flatToNested(flatObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
 
-## get-display-name
+## getDisplayName
 
 Returns the display name of a React component.
 
