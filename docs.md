@@ -102,9 +102,10 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 A function that returns a React HOC to handle renderWhen logic for loading state.
 
 For the renderWhen param, types include:
-String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
-Function - Returns value when function is invoked that returns true
-Object - Returns true when all values in object are defined and when values are equivalent to any passed in props
+
+-   String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
+-   Function - Returns value when function is invoked that returns true
+-   Object - Returns true when all values in object are defined and when values are equivalent to any passed in props
 
 **Parameters**
 
