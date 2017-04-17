@@ -1,8 +1,9 @@
 /**
- * Returns the component name if possible to determine, or just `Component`. This is helpful
- * for higher order components to call on their `wrapped` component so the name that shows up
- * in the React Dev Tools includes the name `wrapped` component making debugging much easier.
+ * Returns the display name of a React component.
  * 
+ * This is helpful for higher order components to call on their `wrapped` component so the
+ * name that shows up in the React Dev Tools includes the name `wrapped` component making
+ * debugging much easier.
  * 
  * For React classes and named functional components, the name will be returned. For inline
  * functional components without a name, `Component` will be returned. If `displayName` is 
