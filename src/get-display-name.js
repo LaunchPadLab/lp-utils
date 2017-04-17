@@ -40,6 +40,6 @@
  *  }
  * getDisplayName(Foo)) // `Bar`
  */
-export default function (Component) {
+export default function getDisplayName (Component) {
   return Component.displayName || Component.name || 'Component'
 }
