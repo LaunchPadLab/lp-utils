@@ -103,9 +103,9 @@ A function that returns a React HOC to handle renderWhen logic for loading state
 
 For the renderWhen param, types include:
 
--   String - Returns true when string value is defined, not equal to 'loading', and when the string is equivalent to any passed in props
+-   String - Returns true when passed in name of a prop value is defined, not equal to 'loading', and when the prop value for the passed in name is equivalent to any passed in prop value
 -   Function - Returns value when function is invoked that returns true
--   Object - Returns true when all values in object are defined and when values are equivalent to any passed in props
+-   Object - Returns true when all values in a props object are defined and when values are equivalent to any specific passed in prop value
 
 **Parameters**
 
