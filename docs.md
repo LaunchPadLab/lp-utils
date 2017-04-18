@@ -298,6 +298,8 @@ For each toggle name given, the wrapped component will receive the following pro
 
 `<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
 
+`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
+
 `toggle<ToggleName>`: a function that will toggle the toggle value.
 
 Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
