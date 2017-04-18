@@ -2,12 +2,57 @@
 
 ### Table of Contents
 
+-   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
+-   [getDisplayName](#getdisplayname)
 -   [nestedToFlat](#nestedtoflat)
+-   [on-mount](#on-mount)
 -   [onUpdate](#onupdate)
 -   [onLoad](#onload)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
+
+## deprecate
+
+A function that logs a deprecation warning in the console every time a given function is called.
+If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
+
+If no message is provided, the default deprecation message is:
+
+-   `<functionName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+// In my-func.js
+
+function myFunc () {
+  return 'hey!'
+}
+
+export default deprecate(myFunc, 'Do not use!')
+
+// In another file:
+
+import myFunc from './my-func'
+
+myFunc() // -> 'hey!'
+// Console will show warning: 'DEPRECATED: Do not use!'
+
+
+// If you're deprecating a React component, use deprecateComponent as an HOC:
+
+const MyComponent = () => <p>Hi</p>
+export default deprecateComponent('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
+```
 
 ## flatToNested
 
@@ -39,6 +84,55 @@ flatToNested(flatObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
 
+## getDisplayName
+
+Returns the display name of a React component.
+
+This is helpful for higher order components to call on their `wrapped` component so the
+name that shows up in the React Dev Tools includes the name `wrapped` component making
+debugging much easier.
+
+For React classes and named functional components, the name will be returned. For inline
+functional components without a name, `Component` will be returned. If `displayName` is 
+explicitly set, then that will be returned.
+
+**Parameters**
+
+-   `Component` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A React component
+
+**Examples**
+
+```javascript
+// Inline functional component
+getDisplayName(() => <div></div>) // `Component`
+
+// Named functional components
+const Foo = () => <div></div>
+getDisplayName(Foo) // `Foo`
+
+function Foo () {
+  return <div></div>
+}
+getDisplayName(Foo) // `Foo`
+
+// Class
+class Foo extends React.Component {
+  render() {
+    return <div></div>
+  }
+}
+getDisplayName(Foo) // `Foo`
+
+// Explicit `displayName`
+class Foo extends React.Component {
+  static displayName = 'Bar'
+  render() { return <div></div> }
+ }
+getDisplayName(Foo)) // `Bar`
+```
+
+Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
+
 ## nestedToFlat
 
 Returns an object where the keys are string paths converted from nested objects. This is the opposite of [flatToNested](#flattonested).
@@ -68,6 +162,34 @@ nestedToFlat(nestedObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
+
+## on-mount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUpdate](#onupdate).
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## onUpdate
 
