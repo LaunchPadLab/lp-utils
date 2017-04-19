@@ -11,6 +11,7 @@
 -   [onLoad](#onload)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
+-   [validate](#validate)
 
 ## deprecate
 
@@ -225,13 +226,13 @@ A function that returns a React HOC to handle renderWhen logic for loading state
 
 For the renderWhen param, types include:
 
--   String - Returns true when passed in name of a prop value is defined, not equal to 'loading', and when the prop value for the passed in name is equivalent to any passed in prop value
--   Function - Returns value when function is invoked that returns true
--   Object - Returns true when all values in a props object are defined and when values are equivalent to any specific passed in prop value
+-   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
+-   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+-   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
 
 **Parameters**
 
--   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** Returns true when the wrapped component may render. Will be passed the current props.
+-   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
 -   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
 
 **Examples**
@@ -331,3 +332,52 @@ ComponentWithTooltip.propTypes = {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## validate
+
+A wrapper around the `validate` function exported from
+[Validate JS](https://validatejs.org/) to make is work seamlessly with
+[Redux Form](http://redux-form.com/).
+
+This also adds a custom formatter to Validate JS named 'lp'
+
+**Parameters**
+
+-   `constraints` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A 'flat' object containing constraints in the
+    format specified by Validate JS. These are key-value pairs where the keys
+    correspond to keys in the data that will be validated. This is a 'flat'
+    object in that nested data must be accessed using a string path
+    (ex. 'foo.bar') as the key.
+
+**Examples**
+
+```javascript
+const data = {
+  name: 'Foo',
+  address: {
+    zip: '12'
+  }
+}
+
+const constraints = {
+  name: {
+    presence: true
+  },
+  'address.zip': {
+    presence: true,
+    length: { is: 5 }
+  }
+}
+
+validate(constraints)(data)
+
+// {
+//   address: {
+//     zip: ['is the wrong length (should be 5 characters)']
+//   }
+// }
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
+and returns a 'nested' object containing errors in the format specified by
+Redux Form.
