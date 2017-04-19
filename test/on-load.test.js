@@ -73,3 +73,13 @@ test('`renderWhen` is something else', () => {
 
   expect(component.find('h1').exists()).toBe(true)
 })
+
+test('a custom loading component is used', () => {
+  const Wrapped = () => <h1>hi</h1>
+  const LoadingComponent = () => <label> I am loading </label>
+  const Wrapper = onLoad('doLoad', LoadingComponent)(Wrapped)
+  const component = mount(<Wrapper />)
+  expect(component.find('label').exists()).toBe(true)
+  component.setProps({ doLoad: true })
+  expect(component.find('label').exists()).toBe(false)
+})
