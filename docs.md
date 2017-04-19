@@ -373,7 +373,7 @@ validate(constraints)(data)
 
 // {
 //   address: {
-//     zip: ['is the wrong length (should be 5 characters)']
+//     zip: ['Zip is the wrong length (should be 5 characters)']
 //   }
 // }
 ```
