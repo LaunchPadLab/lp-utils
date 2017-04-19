@@ -336,10 +336,8 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 ## validate
 
 A wrapper around the `validate` function exported from
-[Validate JS](https://validatejs.org/) to make is work seamlessly with
+[Validate JS](https://validatejs.org/) to make it work seamlessly with
 [Redux Form](http://redux-form.com/).
-
-This also adds a custom formatter to Validate JS named 'lp'
 
 **Parameters**
 

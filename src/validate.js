@@ -6,10 +6,8 @@ import flatToNested from './flat-to-nested'
 
 /**
  * A wrapper around the `validate` function exported from
- * {@link https://validatejs.org/|Validate JS} to make is work seamlessly with
+ * {@link https://validatejs.org/|Validate JS} to make it work seamlessly with
  * {@link http://redux-form.com/|Redux Form}.
- * 
- * This also adds a custom formatter to Validate JS named 'lp'
  * 
  * @param {Object} constraints - A 'flat' object containing constraints in the
  * format specified by Validate JS. These are key-value pairs where the keys
@@ -63,6 +61,8 @@ function lpFormat (errors) {
   return mapValues(validateJs.formatters.grouped(errors), stripNamespace)
 }
 
+// A custom format that replicates the Validate JS default while handling
+// flat string paths.
 validateJs.formatters.lp = lpFormat
 
 function stripNamespace (errors, attribute) {
