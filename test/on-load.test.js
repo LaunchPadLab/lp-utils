@@ -44,6 +44,31 @@ test('`renderWhen` is a string', () => {
   expect(component.find('h1').exists()).toBe(false)
 })
 
+test('`renderWhen` is an array', () => {
+  const Wrapped = () => <h1>hi</h1>
+  const renderWhen = ['uno', 'dos']
+  const Wrapper = onLoad(renderWhen)(Wrapped)
+  const component = mount(<Wrapper uno={ null }/>)
+
+  expect(component.find('h1').exists()).toBe(false)
+
+  component.setProps({ uno: 'hi' })
+
+  expect(component.find('h1').exists()).toBe(false)
+
+  component.setProps({ uno: 'hi', dos: 'bye' })
+
+  expect(component.find('h1').exists()).toBe(true)
+
+  component.setProps({ uno: 'hello', dos: 'bye' })
+
+  expect(component.find('h1').exists()).toBe(true)
+
+  component.setProps({ uno: 'loading', dos: 'bye' })
+
+  expect(component.find('h1').exists()).toBe(false)
+})
+
 test('`renderWhen` is an object', () => {
   const Wrapped = () => <h1>hi</h1>
   const renderWhen = { uno: 'hi', dos: 'bye' }

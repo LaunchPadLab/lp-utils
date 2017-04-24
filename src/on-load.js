@@ -6,9 +6,10 @@ import getDisplayName from './get-display-name'
 /**
  * A function that returns a React HOC to handle renderWhen logic for loading state.
  *
- * For the renderWhen param, types include:
+ * For the renderWhen param, the type can be one of the following:
  * * String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
  * * Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+ * * Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
  * * Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
  *
  * @param {(String|Function|Object)} renderWhen - A rule indicating when the wrapped component may render.
@@ -18,7 +19,6 @@ import getDisplayName from './get-display-name'
  *
  *  function MyComponent (name) {
  *    return (
- *      ...
  *      <p>{name}</p>
  *    )
  *  }
@@ -26,12 +26,13 @@ import getDisplayName from './get-display-name'
  *  const renderWhen = 'name'
  *
  *  onLoad(renderWhen, MyComponent)
- *  // when prop 'name' value evaluates to true, MyComponent is rendered
+ *  // When prop 'name' value evaluates to true, MyComponent will be rendered.
+ *  // Otherwise, <p>Loading...</p> will be rendered.
 **/
 
 export default function onLoad (renderWhen, LoadingComponent=null) {
 
-  const renderWrapped = getRenderWrapped(renderWhen)
+  const doRender = getRenderCondition(renderWhen)
 
   return WrappedComponent =>
 
@@ -48,7 +49,7 @@ export default function onLoad (renderWhen, LoadingComponent=null) {
       static WrappedComponent = WrappedComponent
 
       render () {
-        if (renderWrapped(this.props)) {
+        if (doRender(this.props)) {
           return <WrappedComponent { ...this.props }/>
         }
 
@@ -61,17 +62,23 @@ export default function onLoad (renderWhen, LoadingComponent=null) {
     }
 }
 
-function getRenderWrapped (renderWhen) {
+function getRenderCondition (renderWhen) {
 
-  const type = typeof renderWhen
+  let type = typeof renderWhen
+  if (Array.isArray(renderWhen)) type = 'array'
 
   switch(type) {
     case 'function':
       return renderWhen
     case 'string':
       return function (props) {
-        const value = getOr(null, renderWhen, props)
-        return value && value !== 'loading'
+        return propIsPresent(renderWhen, props)
+      }
+    case 'array':
+      return function (props) {
+        return renderWhen.every(propName => {
+          return propIsPresent(propName, props)
+        })
       }
     case 'object':
       return function (props) {
@@ -83,4 +90,10 @@ function getRenderWrapped (renderWhen) {
     default:
       return stubTrue
   }
+}
+
+// Returns true if prop is truthy and doesn't equal 'loading'
+function propIsPresent (propName, props) {
+  const value = getOr(null, propName, props)
+  return value && value !== 'loading'
 }

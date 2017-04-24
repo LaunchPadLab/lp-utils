@@ -224,10 +224,11 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 A function that returns a React HOC to handle renderWhen logic for loading state.
 
-For the renderWhen param, types include:
+For the renderWhen param, the type can be one of the following:
 
 -   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
 -   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+-   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
 -   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
 
 **Parameters**
@@ -240,7 +241,6 @@ For the renderWhen param, types include:
 ```javascript
 function MyComponent (name) {
    return (
-     ...
      <p>{name}</p>
    )
  }
@@ -248,7 +248,8 @@ function MyComponent (name) {
  const renderWhen = 'name'
 
  onLoad(renderWhen, MyComponent)
- // when prop 'name' value evaluates to true, MyComponent is rendered
+ // When prop 'name' value evaluates to true, MyComponent will be rendered.
+ // Otherwise, <p>Loading...</p> will be rendered.
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
