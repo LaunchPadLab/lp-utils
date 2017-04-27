@@ -28,7 +28,7 @@ import getDisplayName from './get-display-name'
  * A function that returns a React HOC to handle logic to be run during
  * the `componentDidMount` lifecycle event.
  */
-export default function (onComponentDidMount) {
+export default function onMount (onComponentDidMount) {
 
   return WrappedComponent =>
 

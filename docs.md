@@ -6,9 +6,10 @@
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [nestedToFlat](#nestedtoflat)
--   [on-mount](#on-mount)
--   [onUpdate](#onupdate)
 -   [onLoad](#onload)
+-   [onMount](#onmount)
+-   [onResponse](#onresponse)
+-   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
 -   [validate](#validate)
@@ -164,62 +165,6 @@ nestedToFlat(nestedObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
-## on-mount
-
-A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
-
-See also: [onUpdate](#onupdate).
-
-**Parameters**
-
--   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidMount (props) {
-   console.log('Our current props: ', props)
- }
-
- export default onMount(componentDidMount)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onUpdate
-
-A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
-
-See also: [onMount](onMount).
-
-**Parameters**
-
--   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
- }
-
- export default onUpdate(componentDidUpdate)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
 ## onLoad
 
 A function that returns a React HOC to handle renderWhen logic for loading state.
@@ -253,6 +198,95 @@ function MyComponent (name) {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
+
+## onMount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUpdate](#onupdate).
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onResponse
+
+A function that returns a React HOC to handle rendering that depends on an API response. 
+A combination of [onMount](#onmount) and `lp-redux-api` request status selectors.
+
+**Parameters**
+
+-   `requestKeys` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))?= \[]** A key or set of keys corresponding to `lp-redux-api` requests.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state. (optional, default `null`)
+
+**Examples**
+
+```javascript
+import { REQ_USERS, requestUsers } from 'actions'
+
+ function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ export default compose(
+   onMount(requestUsers),
+   onResponse(REQ_USERS),
+ )(MyComponent)
+ 
+ // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
+ // When the status of 'REQ_USERS' request becomes 'success' or 'failure', the component will render.
+ // Otherwise, the default {@link onMount} loading component will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A higher order component (HOC).
+
+## onUpdate
+
+A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
+
+See also: [onMount](#onmount).
+
+**Parameters**
+
+-   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidUpdate (currentProps, previousProps) {
+   console.log('Props updated!', currentProps, previousProps)
+ }
+
+ export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## selectorForSlice
 
