@@ -15,16 +15,15 @@ function lpApiAction (key, status) {
   return { type: 'LP_API_ACTION', payload: { key, status } }
 }
 
-// Initialize store
+// Use Api reducer in test stores
 const reducer = combineReducers({ api: apiReducer }) 
-const initialState = {} 
-const store = createStore(reducer, initialState)
 
 const REQ_KEY_ONE = 'REQ_KEY_ONE'
 const REQ_KEY_TWO = 'REQ_KEY_TWO'
 
 test('onResponse renders when response is received', () => {
 
+  const store = createStore(reducer)
   const Wrapped = () => <h1>hi</h1>
   const Wrapper = onResponse(REQ_KEY_ONE)(Wrapped)
 
@@ -44,7 +43,8 @@ test('onResponse renders when response is received', () => {
 })
 
 test('onResponse renders when multiple responses are received', () => {
-
+  
+  const store = createStore(reducer)
   const Wrapped = () => <h1>hi</h1>
   const Wrapper = onResponse([REQ_KEY_ONE, REQ_KEY_TWO])(Wrapped)
 
@@ -64,7 +64,8 @@ test('onResponse renders when multiple responses are received', () => {
 })
 
 test('onResponse renders custom loading component', () => {
-
+  
+  const store = createStore(reducer)
   const Wrapped = () => <h1>hi</h1>
   const Loading = () => <label>loading</label>
   const Wrapper = onResponse([REQ_KEY_ONE], Loading)(Wrapped)
