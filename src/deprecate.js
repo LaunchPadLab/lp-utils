@@ -10,6 +10,8 @@ import onMount from './on-mount'
  * If no message is provided, the default deprecation message is:
  * - `<functionName> is deprecated and will be removed in the next version of this library.`
  * 
+ * @name deprecate
+ * @type Function
  * @param {Function} func - The function that is being deprecated
  * @param {String} [message] - A custom message to display
  * @param {Function} [log=console.warn] - A function for logging the message

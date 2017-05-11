@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import onMount from '../src/on-mount'
+import { onMount } from '../src'
 
 test('`componentDidMount` works when param is a function', () => {
   const Wrapped = () => <h1>hi</h1>
