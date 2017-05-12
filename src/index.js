@@ -1,3 +1,4 @@
+export { default as callWithProps } from './call-with-props'
 export { deprecate, deprecateComponent } from './deprecate'
 export { default as flatToNested } from './flat-to-nested'
 export { default as getDisplayName } from './get-display-name'

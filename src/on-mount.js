@@ -1,5 +1,7 @@
 import React from 'react'
 import getDisplayName from './get-display-name'
+import callWithProps from './call-with-props'
+
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
  *
@@ -44,25 +46,7 @@ export default function onMount (onComponentDidMount) {
        * any props.
        */
       componentDidMount () {
-        const type = typeof onComponentDidMount
-        switch(type) {
-          case 'string': {
-            const func = this.props[onComponentDidMount]
-            if (typeof func !== 'function')
-              throw `
-                OnMount: You specified a string argument of '${onComponentDidMount}'
-                that should correspond to a function prop in ${getDisplayName(WrappedComponent)}
-                but there is no function prop with that key
-              `
-            return func()
-          }
-          case 'function':
-            return onComponentDidMount(this.props)
-        }
-        throw `
-          OnMount: The argument provided to onMount must be a string or
-          function, you provided ${onComponentDidMount}
-        `
+        callWithProps(onComponentDidMount, this.props)
       }
 
       /*

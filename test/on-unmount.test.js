@@ -21,22 +21,3 @@ test('`componentWillUnmount` works when param is a string', () => {
   wrapper.unmount()
   expect(unmountFunction).toHaveBeenCalled()
 })
-
-test('`componentWillUnmount` throws when string param prop is not found, or is not a function', () => {
-  const Wrapped = () => <h1>hi</h1>
-  const componentWillUnmount = 'mountFunction'
-  const UnmountWrapper = onUnmount(componentWillUnmount)(Wrapped)
-  expect(() => mount(<UnmountWrapper />).unmount()).toThrow()
-  expect(() => mount(<UnmountWrapper mountFunction="not a function" />).unmount()).toThrow()
-})
-
-
-test('`componentWillUnmount` throws when param is not a string or a function', () => {
-  const Wrapped = () => <h1>hi</h1>
-  let UnmountWrapper = onUnmount(25)(Wrapped)
-  expect(() => mount(<UnmountWrapper />).unmount()).toThrow()
-  UnmountWrapper = onUnmount(null)(Wrapped)
-  expect(() => mount(<UnmountWrapper />).unmount()).toThrow()
-  UnmountWrapper = onUnmount(undefined)(Wrapped)
-  expect(() => mount(<UnmountWrapper />).unmount()).toThrow()
-})

@@ -1,5 +1,7 @@
 import React from 'react'
 import getDisplayName from './get-display-name'
+import callWithProps from './call-with-props'
+
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
  *
@@ -44,25 +46,7 @@ export default function onUnmount (onComponentWillUnmount) {
        * any props.
        */
       componentWillUnmount () {
-        const type = typeof onComponentWillUnmount
-        switch(type) {
-          case 'string': {
-            const func = this.props[onComponentWillUnmount]
-            if (typeof func !== 'function')
-              throw `
-                OnUnmount: You specified a string argument of '${onComponentWillUnmount}'
-                that should correspond to a function prop in ${getDisplayName(WrappedComponent)}
-                but there is no function prop with that key
-              `
-            return func()
-          }
-          case 'function':
-            return onComponentWillUnmount(this.props)
-        }
-        throw `
-          OnMount: The argument provided to onUnmount must be a string or
-          function, you provided ${onComponentWillUnmount}
-        `
+        callWithProps(onComponentWillUnmount, this.props)
       }
 
       /*
