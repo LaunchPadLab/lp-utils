@@ -3,11 +3,11 @@ import getDisplayName from './get-display-name'
 import callWithProps from './call-with-props'
 
 /**
- * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+ * A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
  *
- * See also: {@link onUnmount}, {@link onUpdate}
+ * See also: {@link onMount}, {@link onUpdate}
  *
- * @param {Function|String} onComponentDidMount - A function or a string reference to a function that will be executed with the component's props.
+ * @param {Function|String} onComponentWillUnmount - A function or a string reference to a function that will be executed with the component's props.
  * @returns {Function} - A HOC that can be used to wrap a component.
  * @example
  *
@@ -17,15 +17,15 @@ import callWithProps from './call-with-props'
  *    )
  *  }
  *
- *  function componentDidMount (props) {
+ *  function componentWillUnmount (props) {
  *    console.log('Our current props: ', props)
  *  }
  *
- *  export default onMount(componentDidMount)(MyComponent)
+ *  export default onUnmount(componentWillUnmount)(MyComponent)
  *
 **/
 
-export default function onMount (onComponentDidMount) {
+export default function onUnmount (onComponentWillUnmount) {
 
   return WrappedComponent =>
 
@@ -34,7 +34,7 @@ export default function onMount (onComponentDidMount) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnMount(${getDisplayName(WrappedComponent)})`
+      static displayName = `OnUnmount(${getDisplayName(WrappedComponent)})`
 
       /*
        * A reference to the wrapped component
@@ -42,11 +42,11 @@ export default function onMount (onComponentDidMount) {
       static WrappedComponent = WrappedComponent
 
       /*
-       * Invoke the provided function after the component mounts, passing in
+       * Invoke the provided function before the component unmounts, passing in
        * any props.
        */
-      componentDidMount () {
-        callWithProps(onComponentDidMount, this.props)
+      componentWillUnmount () {
+        callWithProps(onComponentWillUnmount, this.props)
       }
 
       /*
