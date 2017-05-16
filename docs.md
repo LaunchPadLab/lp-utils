@@ -390,7 +390,7 @@ See also: [onMount](#onmount), [onUnmount](#onunmount)
 
 **Parameters**
 
--   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+-   `onComponentDidUpdate` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be passed the current props and the previous props.
 
 **Examples**
 
