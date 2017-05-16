@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 
 import getDisplayName from './get-display-name'
-import onMount from './on-mount'
+import { onMount } from './lifecycle'
 
 /**
  * A function that logs a deprecation warning in the console every time a given function is called.

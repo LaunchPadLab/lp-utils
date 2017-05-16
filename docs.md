@@ -6,13 +6,13 @@
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [nestedToFlat](#nestedtoflat)
--   [onMount](#onmount)
--   [onUnmount](#onunmount)
--   [onUpdate](#onupdate)
 -   [onLoad](#onload)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
 -   [validate](#validate)
+-   [onMount](#onmount)
+-   [onUnmount](#onunmount)
+-   [onUpdate](#onupdate)
 
 ## deprecate
 
@@ -164,90 +164,6 @@ nestedToFlat(nestedObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
-
-## onMount
-
-A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
-
-See also: [onUnmount](#onunmount), [onUpdate](#onupdate)
-
-**Parameters**
-
--   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidMount (props) {
-   console.log('Our current props: ', props)
- }
-
- export default onMount(componentDidMount)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onUnmount
-
-A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
-
-See also: [onMount](#onmount), [onUpdate](#onupdate)
-
-**Parameters**
-
--   `onComponentWillUnmount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentWillUnmount (props) {
-   console.log('Our current props: ', props)
- }
-
- export default onUnmount(componentWillUnmount)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onUpdate
-
-A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
-
-See also: [onMount](#onmount), [onUnmount](#onunmount)
-
-**Parameters**
-
--   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
- }
-
- export default onUpdate(componentDidUpdate)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## onLoad
 
@@ -409,3 +325,87 @@ validate(constraints)(data)
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
 and returns a 'nested' object containing errors in the format specified by
 Redux Form.
+
+## onMount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUnmount](#onunmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onUnmount
+
+A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
+
+See also: [onMount](#onmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentWillUnmount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentWillUnmount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onUnmount(componentWillUnmount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onUpdate
+
+A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
+
+See also: [onMount](#onmount), [onUnmount](#onunmount)
+
+**Parameters**
+
+-   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidUpdate (currentProps, previousProps) {
+   console.log('Props updated!', currentProps, previousProps)
+ }
+
+ export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
