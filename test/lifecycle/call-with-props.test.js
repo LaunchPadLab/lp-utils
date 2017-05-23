@@ -1,4 +1,4 @@
-import { callWithProps } from '../src'
+import callWithProps from '../../src/lifecycle/call-with-props'
 
 test('`callWithProps` passes props to provided function', () => {
   const func = jest.fn()
@@ -12,6 +12,14 @@ test('`callWithProps` passes props to specified function prop', () => {
   const props = { foo: true, funcProp }
   callWithProps('funcProp', props)
   expect(funcProp).toHaveBeenCalledWith(props)
+})
+
+test('`callWithProps` passes additional arguments to provided function', () => {
+  const func = jest.fn()
+  const props = { foo: true }
+  const additional = 'another arg'
+  callWithProps(func, props, additional)
+  expect(func).toHaveBeenCalledWith(props, additional)
 })
 
 test('`callWithProps` throws when string param prop is not found, or prop is not a function', () => {

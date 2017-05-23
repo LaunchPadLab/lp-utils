@@ -1,5 +1,5 @@
 import React from 'react'
-import getDisplayName from './get-display-name'
+import getDisplayName from '../get-display-name'
 import callWithProps from './call-with-props'
 
 /**

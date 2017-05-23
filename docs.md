@@ -6,10 +6,10 @@
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [nestedToFlat](#nestedtoflat)
+-   [onLoad](#onload)
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
 -   [onUpdate](#onupdate)
--   [onLoad](#onload)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
 -   [validate](#validate)
@@ -165,6 +165,40 @@ nestedToFlat(nestedObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
+## onLoad
+
+A function that returns a React HOC to handle renderWhen logic for loading state.
+
+For the renderWhen param, the type can be one of the following:
+
+-   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
+-   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+-   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
+-   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
+
+**Parameters**
+
+-   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
+
+**Examples**
+
+```javascript
+function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ const renderWhen = 'name'
+
+ onLoad(renderWhen, MyComponent)
+ // When prop 'name' value evaluates to true, MyComponent will be rendered.
+ // Otherwise, <p>Loading...</p> will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
+
 ## onMount
 
 A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
@@ -229,7 +263,7 @@ See also: [onMount](#onmount), [onUnmount](#onunmount)
 
 **Parameters**
 
--   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+-   `onComponentDidUpdate` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be passed the current props and the previous props.
 
 **Examples**
 
@@ -248,40 +282,6 @@ function MyComponent () {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onLoad
-
-A function that returns a React HOC to handle renderWhen logic for loading state.
-
-For the renderWhen param, the type can be one of the following:
-
--   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
--   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
--   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
--   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
-
-**Parameters**
-
--   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
--   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
-
-**Examples**
-
-```javascript
-function MyComponent (name) {
-   return (
-     <p>{name}</p>
-   )
- }
-
- const renderWhen = 'name'
-
- onLoad(renderWhen, MyComponent)
- // When prop 'name' value evaluates to true, MyComponent will be rendered.
- // Otherwise, <p>Loading...</p> will be rendered.
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
 
 ## selectorForSlice
 

@@ -2,9 +2,9 @@
 // Runs a lifecycle action, which can be defined as either:
 // - (String) The name of a function prop to call
 // - (Function) A function to call
-// When called, function will be passed the props.
+// When called, function will be passed the props (and additional arguments if passed).
 
-function callWithProps (funcOrString, props) {
+function callWithProps (funcOrString, props, ...args) {
 
   switch(typeof funcOrString) {
 
@@ -16,11 +16,11 @@ function callWithProps (funcOrString, props) {
           that should've corresponded to a function prop,
           but there was no function prop with that key.
         `
-      return func(props)
+      return func(props, ...args)
     }
 
     case 'function': {
-      return funcOrString(props)
+      return funcOrString(props, ...args)
     }
 
     default: {
