@@ -5,6 +5,7 @@
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
+-   [getSet](#getset)
 -   [nestedToFlat](#nestedtoflat)
 -   [onLoad](#onload)
 -   [onMount](#onmount)
@@ -134,6 +135,62 @@ getDisplayName(Foo)) // `Bar`
 ```
 
 Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
+
+## getSet
+
+A function that returns a React HOC that provides values and corresponding setter functions to the wrapped component.
+For each variable name given, the wrapped component will receive the following props:
+
+-   `<variableName>`: the value, default = `null`.
+-   `set<variableName>`: a function that will set the value to a given value.
+
+`getSet` also exposes a `getSetPropTypes` function to automatically generate PropTypes for these props.
+
+**Options**
+
+`getSet` may be passed an options object containing the following keys:
+
+-   `initialValues`: An object containing initial values for the variables
+
+**Parameters**
+
+-   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
+
+**Examples**
+
+```javascript
+function TabBar ({ currentTab, setCurrentTab, tabs ... }) {
+  return (
+    <div>
+      { 
+        tabs.map(tab => 
+           <Tab 
+             key={ tab } 
+             isActive={ tab === currentTab }
+             onClick={ () => setCurrentTab(tab) }
+           />
+        )
+      }
+    </div>
+  )
+}
+
+ComponentWithTooltip.propTypes = {
+  ...getSetPropTypes('currentTab'),
+  tabs: PropTypes.arrayOf(PropTypes.number),
+}
+
+export default compose(
+   getSet('currentTab', { 
+     intialValues: { 
+       currentTab: 1,
+     },
+   }),
+)(TabBar)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## nestedToFlat
 
