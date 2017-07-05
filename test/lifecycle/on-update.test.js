@@ -1,8 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { onUpdate } from '../src/'
+import { onUpdate } from '../../src/'
 
-test('update function is called with when props are updated', () => {
+test('`onUpdate` works when param is a function', () => {
   const Wrapped = () => <h1>hi</h1>
   const componentDidUpdate = jest.fn()
   const Wrapper = onUpdate(componentDidUpdate)(Wrapped)
@@ -15,25 +15,22 @@ test('update function is called with when props are updated', () => {
   const newProps = { foo: 1, bar: false }
   component.setProps(newProps)
 
-  expect(componentDidUpdate).toHaveBeenCalled()
+  expect(componentDidUpdate).toHaveBeenCalledWith(newProps, initialProps)
 })
 
-test('update function is called with current and previous props', () => {
+test('`onUpdate` works when param is a string', () => {
   const Wrapped = () => <h1>hi</h1>
   const componentDidUpdate = jest.fn()
-  const Wrapper = onUpdate(componentDidUpdate)(Wrapped)
+  const Wrapper = onUpdate('componentDidUpdate')(Wrapped)
 
-  const initialProps = { foo: 0, bar: true }
+  const initialProps = { foo: 0, bar: true, componentDidUpdate }
   const component = mount(<Wrapper { ...initialProps }/>)
 
   expect(component.find('h1').exists()).toBe(true)
 
-  const newProps = { foo: 1, bar: false }
+  const newProps = { foo: 1, bar: false, componentDidUpdate }
   component.setProps(newProps)
 
-  const functionCall = componentDidUpdate.mock.calls.pop()
-  const [firstArg, secondArg] = functionCall
-
-  expect(firstArg).toEqual(newProps)
-  expect(secondArg).toEqual(initialProps)
+  expect(componentDidUpdate).toHaveBeenCalledWith(newProps, initialProps)
 })
+

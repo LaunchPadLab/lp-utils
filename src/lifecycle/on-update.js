@@ -1,12 +1,13 @@
 import React from 'react'
-import getDisplayName from './get-display-name'
+import getDisplayName from '../get-display-name'
+import callWithProps from './call-with-props'
 
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
  *
- * See also: {@link onMount}.
- * 
- * @param {Function} onComponentDidUpdate - A function that will be passed the current props and the previous props.
+ * See also: {@link onMount}, {@link onUnmount}
+ *
+ * @param {Function|String} onComponentDidUpdate - A function or a string reference to a function that will be passed the current props and the previous props.
  * @returns {Function} - A HOC that can be used to wrap a component.
  * @example
  *
@@ -17,13 +18,13 @@ import getDisplayName from './get-display-name'
  *  }
  *
  *  function componentDidUpdate (currentProps, previousProps) {
- *    console.log('Props updated!', currentProps, previousProps) 
+ *    console.log('Props updated!', currentProps, previousProps)
  *  }
  *
  *  export default onUpdate(componentDidUpdate)(MyComponent)
  *
 **/
- 
+
 export default function onUpdate (onComponentDidUpdate) {
 
   return WrappedComponent =>
@@ -45,7 +46,7 @@ export default function onUpdate (onComponentDidUpdate) {
        * the current and previous props.
        */
       componentDidUpdate (prevProps) {
-        onComponentDidUpdate(this.props, prevProps)
+        callWithProps(onComponentDidUpdate, this.props, prevProps)
       }
 
       /*

@@ -2,11 +2,60 @@
 
 ### Table of Contents
 
+-   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
+-   [getDisplayName](#getdisplayname)
+-   [getSet](#getset)
 -   [nestedToFlat](#nestedtoflat)
+-   [onLoad](#onload)
+-   [onMount](#onmount)
+-   [onUnmount](#onunmount)
 -   [onUpdate](#onupdate)
 -   [selectorForSlice](#selectorforslice)
 -   [toggle](#toggle)
+-   [validate](#validate)
+
+## deprecate
+
+A function that logs a deprecation warning in the console every time a given function is called.
+If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
+
+If no message is provided, the default deprecation message is:
+
+-   `<functionName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+// In my-func.js
+
+function myFunc () {
+  return 'hey!'
+}
+
+export default deprecate(myFunc, 'Do not use!')
+
+// In another file:
+
+import myFunc from './my-func'
+
+myFunc() // -> 'hey!'
+// Console will show warning: 'DEPRECATED: Do not use!'
+
+
+// If you're deprecating a React component, use deprecateComponent as an HOC:
+
+const MyComponent = () => <p>Hi</p>
+export default deprecateComponent('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
+```
 
 ## flatToNested
 
@@ -38,6 +87,111 @@ flatToNested(flatObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
 
+## getDisplayName
+
+Returns the display name of a React component.
+
+This is helpful for higher order components to call on their `wrapped` component so the
+name that shows up in the React Dev Tools includes the name `wrapped` component making
+debugging much easier.
+
+For React classes and named functional components, the name will be returned. For inline
+functional components without a name, `Component` will be returned. If `displayName` is 
+explicitly set, then that will be returned.
+
+**Parameters**
+
+-   `Component` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A React component
+
+**Examples**
+
+```javascript
+// Inline functional component
+getDisplayName(() => <div></div>) // `Component`
+
+// Named functional components
+const Foo = () => <div></div>
+getDisplayName(Foo) // `Foo`
+
+function Foo () {
+  return <div></div>
+}
+getDisplayName(Foo) // `Foo`
+
+// Class
+class Foo extends React.Component {
+  render() {
+    return <div></div>
+  }
+}
+getDisplayName(Foo) // `Foo`
+
+// Explicit `displayName`
+class Foo extends React.Component {
+  static displayName = 'Bar'
+  render() { return <div></div> }
+ }
+getDisplayName(Foo)) // `Bar`
+```
+
+Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
+
+## getSet
+
+A function that returns a React HOC that provides values and corresponding setter functions to the wrapped component.
+For each variable name given, the wrapped component will receive the following props:
+
+-   `<variableName>`: the value, default = `null`.
+-   `set<variableName>`: a function that will set the value to a given value.
+
+`getSet` also exposes a `getSetPropTypes` function to automatically generate PropTypes for these props.
+
+**Options**
+
+`getSet` may be passed an options object containing the following keys:
+
+-   `initialValues`: An object containing initial values for the variables
+
+**Parameters**
+
+-   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
+
+**Examples**
+
+```javascript
+function TabBar ({ currentTab, setCurrentTab, tabs ... }) {
+  return (
+    <div>
+      { 
+        tabs.map(tab => 
+           <Tab 
+             key={ tab } 
+             isActive={ tab === currentTab }
+             onClick={ () => setCurrentTab(tab) }
+           />
+        )
+      }
+    </div>
+  )
+}
+
+ComponentWithTooltip.propTypes = {
+  ...getSetPropTypes('currentTab'),
+  tabs: PropTypes.arrayOf(PropTypes.number),
+}
+
+export default compose(
+   getSet('currentTab', { 
+     intialValues: { 
+       currentTab: 1,
+     },
+   }),
+)(TabBar)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
 ## nestedToFlat
 
 Returns an object where the keys are string paths converted from nested objects. This is the opposite of [flatToNested](#flattonested).
@@ -68,15 +222,105 @@ nestedToFlat(nestedObj)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
+## onLoad
+
+A function that returns a React HOC to handle renderWhen logic for loading state.
+
+For the renderWhen param, the type can be one of the following:
+
+-   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
+-   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+-   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
+-   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
+
+**Parameters**
+
+-   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
+
+**Examples**
+
+```javascript
+function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ const renderWhen = 'name'
+
+ onLoad(renderWhen, MyComponent)
+ // When prop 'name' value evaluates to true, MyComponent will be rendered.
+ // Otherwise, <p>Loading...</p> will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
+
+## onMount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUnmount](#onunmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onUnmount
+
+A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
+
+See also: [onMount](#onmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentWillUnmount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentWillUnmount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onUnmount(componentWillUnmount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
 ## onUpdate
 
 A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
 
-See also: [onMount](onMount).
+See also: [onMount](#onmount), [onUnmount](#onunmount)
 
 **Parameters**
 
--   `onComponentDidUpdate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that will be passed the current props and the previous props.
+-   `onComponentDidUpdate` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be passed the current props and the previous props.
 
 **Examples**
 
@@ -88,7 +332,7 @@ function MyComponent () {
  }
 
  function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps) 
+   console.log('Props updated!', currentProps, previousProps)
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
@@ -142,6 +386,8 @@ For each toggle name given, the wrapped component will receive the following pro
 
 `<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
 
+`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
+
 `toggle<ToggleName>`: a function that will toggle the toggle value.
 
 Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
@@ -173,3 +419,50 @@ ComponentWithTooltip.propTypes = {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## validate
+
+A wrapper around the `validate` function exported from
+[Validate JS](https://validatejs.org/) to make it work seamlessly with
+[Redux Form](http://redux-form.com/).
+
+**Parameters**
+
+-   `constraints` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A 'flat' object containing constraints in the
+    format specified by Validate JS. These are key-value pairs where the keys
+    correspond to keys in the data that will be validated. This is a 'flat'
+    object in that nested data must be accessed using a string path
+    (ex. 'foo.bar') as the key.
+
+**Examples**
+
+```javascript
+const data = {
+  name: 'Foo',
+  address: {
+    zip: '12'
+  }
+}
+
+const constraints = {
+  name: {
+    presence: true
+  },
+  'address.zip': {
+    presence: true,
+    length: { is: 5 }
+  }
+}
+
+validate(constraints)(data)
+
+// {
+//   address: {
+//     zip: ['Zip is the wrong length (should be 5 characters)']
+//   }
+// }
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
+and returns a 'nested' object containing errors in the format specified by
+Redux Form.

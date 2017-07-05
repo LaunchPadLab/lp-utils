@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import getDisplayName from './get-display-name'
 
@@ -7,6 +8,8 @@ import getDisplayName from './get-display-name'
  * For each toggle name given, the wrapped component will receive the following props:
  *
  * `<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
+ *
+ * `set<ToggleName>`: a function that will set the toggle value to a given boolean value.
  *
  * `toggle<ToggleName>`: a function that will toggle the toggle value.
  *
@@ -66,12 +69,28 @@ export default function (...toggles) {
         )
 
         /*
+         * The setter functions
+         */
+        this.setters = toggles.reduce((setters, toggle) =>
+          ({ ...setters, [setterFuncName(toggle)]: (val) => this.set.bind(this, toggleStateName(toggle), val)() }),
+          {}
+        )
+
+        /*
          * The toggle functions
          */
         this.toggles = toggles.reduce((togglers, toggle) =>
           ({ ...togglers, [toggleFuncName(toggle)]: this.toggle.bind(this, toggleStateName(toggle)) }),
           {}
         )
+      }
+
+      /*
+       * Set the active state for the provided toggle name
+       */
+      set (toggleName, val) {
+        if (typeof val !== 'boolean') throw 'Toggle can only be set to a boolean value.'
+        this.setState({ [toggleName]: val })
       }
 
       /*
@@ -90,6 +109,7 @@ export default function (...toggles) {
           <WrappedComponent
             { ...this.props }
             { ...this.state }
+            { ...this.setters }
             { ...this.toggles }
           />
         )
@@ -101,6 +121,10 @@ function toggleStateName (toggle) {
   return camelCase([toggle, 'active'].join(' '))
 }
 
+function setterFuncName (toggle) {
+  return camelCase(['set', toggle].join(' '))
+}
+
 function toggleFuncName (toggle) {
   return camelCase(['toggle', toggle].join(' '))
 }
@@ -109,6 +133,7 @@ export function togglePropTypes (...toggles) {
   const propTypes = {}
   toggles.forEach((toggle) => {
     propTypes[toggleStateName(toggle)] = PropTypes.bool
+    propTypes[setterFuncName(toggle)] = PropTypes.func
     propTypes[toggleFuncName(toggle)] = PropTypes.func
   })
   return propTypes
