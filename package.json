@@ -9,7 +9,7 @@
     "name": "Dave Corwin",
     "email": "dave@launchpadlab.com"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "start": "yarn run build:development",
     "build": "mkdir -p lib && babel src --out-dir lib --no-comments --minified",
@@ -22,6 +22,7 @@
   },
   "files": [
     "README.md",
+    "LICENSE.md",
     "lib/"
   ],
   "dependencies": {
