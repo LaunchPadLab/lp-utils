@@ -1,6 +1,6 @@
 {
   "name": "@launchpadlab/lp-utils",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "Our Utilities",
   "main": "lib/index.js",
   "repository": "launchpadlab/lp-utils",
@@ -9,7 +9,7 @@
     "name": "Dave Corwin",
     "email": "dave@launchpadlab.com"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "start": "yarn run build:development",
     "build": "mkdir -p lib && babel src --out-dir lib --no-comments --minified",
@@ -25,6 +25,7 @@
   },
   "files": [
     "README.md",
+    "LICENSE.md",
     "lib/"
   ],
   "dependencies": {
