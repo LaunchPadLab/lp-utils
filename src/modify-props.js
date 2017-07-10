@@ -3,12 +3,8 @@ import React from 'react'
 /**
  * A function that returns a React HOC that modifies a component's props using a given function.
  *
- * The given `modFunction`, called with the component's props,
- * should return an object that will be merged with those props.
- *
- * 
- * This HOC can be used to combine props and build functions
- * that don't belong in `mapStateToProps` or `mapDispatchToProps`.
+ * The provided function will be called with the component's props,
+ * and should return an object that will be merged with those props.
  *
  * @name modifyProps
  * @type Function
@@ -17,8 +13,8 @@ import React from 'react'
  *
  * @example
  *
- * // modifyProps is used to create a custom saving function by combining
- * // props created by mapStateToProps() and mapDispatchToProps()
+ * // modifyProps is used to create a custom save function by combining
+ * // props from mapStateToProps() and mapDispatchToProps()
  *
  * function SaveableProfile ({ name, save }) {
  *   return (
