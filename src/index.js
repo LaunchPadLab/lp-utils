@@ -2,6 +2,7 @@ export { deprecate, deprecateComponent } from './deprecate'
 export { default as flatToNested } from './flat-to-nested'
 export { default as getDisplayName } from './get-display-name'
 export { default as getSet, getSetPropTypes } from './get-set'
+export { default as modifyProps } from './modify-props'
 export { default as nestedToFlat } from './nested-to-flat'
 export { default as onLoad } from './on-load'
 export {
