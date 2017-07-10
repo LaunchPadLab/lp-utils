@@ -42,7 +42,7 @@ import getDisplayName from './get-display-name'
  *   )
  * }
  * 
- * ComponentWithTooltip.propTypes = {
+ * TabBar.propTypes = {
  *   ...getSetPropTypes('currentTab'),
  *   tabs: PropTypes.arrayOf(PropTypes.number),
  * }

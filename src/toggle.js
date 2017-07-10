@@ -41,7 +41,7 @@ import getDisplayName from './get-display-name'
  *
 **/
 
-export default function (...toggles) {
+export default function toggle (...toggles) {
 
   return WrappedComponent =>
 
