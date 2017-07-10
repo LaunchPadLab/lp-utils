@@ -176,7 +176,7 @@ function TabBar ({ currentTab, setCurrentTab, tabs ... }) {
   )
 }
 
-ComponentWithTooltip.propTypes = {
+TabBar.propTypes = {
   ...getSetPropTypes('currentTab'),
   tabs: PropTypes.arrayOf(PropTypes.number),
 }
