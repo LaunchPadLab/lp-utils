@@ -33,6 +33,6 @@ test('select missing key with no default returns null', () => {
   expect(Selectors.withNoDefault(state)).toEqual(null)
 })
 
-test('select when slice path is undefined returns null', () => {
+test('select undefined path returns null', () => {
   expect(Selectors.withUndefined(state)).toEqual(null)
 })
