@@ -54,9 +54,11 @@ import React from 'react'
  *
 **/
 
-const returnEmptyObj = () => ({})
+// Check whether modFunction exists and is a function
+const isValid = modFunction => !!modFunction && typeof modFunction === 'function'
 
-export default function modifyProps (modFunction=returnEmptyObj) {
+export default function modifyProps (modFunction) {
+  if (!isValid(modFunction)) throw 'modifyProps requires a valid modFunction argument.'
   return WrappedComponent =>
     function Wrapper (props) {
       const newProps = { ...props, ...modFunction(props) }
