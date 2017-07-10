@@ -6,6 +6,7 @@
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [getSet](#getset)
+-   [modifyProps](#modifyprops)
 -   [nestedToFlat](#nestedtoflat)
 -   [onLoad](#onload)
 -   [onMount](#onmount)
@@ -189,6 +190,61 @@ export default compose(
      },
    }),
 )(TabBar)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## modifyProps
+
+A function that returns a React HOC that modifies a component's props using a given function.
+
+The given `modFunction`, called with the component's props,
+should return an object that will be merged with those props.
+
+This HOC can be used to combine props and build functions
+that don't belong in `mapStateToProps` or `mapDispatchToProps`.
+
+**Parameters**
+
+-   `modFunction` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that modifies the component's props.
+
+**Examples**
+
+```javascript
+// modifyProps is used to create a custom saving function by combining
+// props created by mapStateToProps() and mapDispatchToProps()
+
+function SaveableProfile ({ name, save }) {
+  return (
+    <div>
+      <h1>{ name }</h1>
+      <button onClick={ save }>
+        Save this profile
+      </button>
+    </div>
+  )
+}
+
+function mapStateToProps (state) {
+   return {
+      id: selectors.profileId(state)
+   }
+}
+
+const mapDispatchToProps = { 
+   saveProfile: actions.saveProfile
+}
+
+function modify ({ id, saveProfile }) {
+   return {
+      save: () => saveProfile(id)
+   }
+}
+
+export default compose(
+   connect(mapStateToProps, mapDispatchToProps),
+   modifyProps(modify),
+)(SaveableProfile)
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
