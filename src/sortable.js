@@ -13,12 +13,17 @@ import getDisplayName from './get-display-name'
  * - `descending`: a boolean indicating whether the sort is descending or not
  * - `sortPath`: a string indicating the current sort comparison path in dot notation
  * - `sort`: a function that can be used to sort an array of objects
- * - `setAscending`: a function to set whether or not objects are sorted in ascending order
- * - `setDescending`: a function to set whether or not objects are sorted descending order
+ * - `setAscending`: a function for setting `ascending`
+ * - `setDescending`: a function for setting `descending`
  * - `setSortPath`: a function for setting `sortPath`
- * - `setSortFunc`: a function for setting a custom sort function
- *
+ * - `setSortFunc`: a function for setting a custom [comparison function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Description) that will be used in `sort`
+ * 
  * `sortable` also exposes a `sortablePropTypes` object for these props.
+ * 
+ * _Note: `setSortPath()` will automatically reset `ascending` to `true` when the current path is changed.
+ * Additionally, it will toggle `ascending` if the same path is selected twice in a row, 
+ * unless `false` is passed as the second parameter._
+ *
  *
  * **Options**
  * 
