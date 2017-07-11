@@ -60,6 +60,18 @@ test('getSet sets initial values correctly', () => {
   expect(finalTest).toBe('howdy')
 })
 
+test('getSet can set initial values from props', () => {
+
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = getSet('foo')(Wrapped)
+  const component = shallow(<Wrapper initialValues={ { foo: 29 } } />)
+
+  // Check props
+  const { foo } = component.props()
+  expect(foo).toBe(29)
+
+})
+
 test('getSetPropTypes creates proptypes with the correct name and value', () => {
   const expectedPropTypes = {
     test: PropTypes.any,

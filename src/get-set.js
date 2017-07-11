@@ -17,6 +17,8 @@ import getDisplayName from './get-display-name'
  * `getSet` may be passed an options object containing the following keys:
  * - `initialValues`: An object containing initial values for the variables
  *
+ * These options can also be passed in as props to the wrapped component.
+ *
  * @name getSet
  * @type Function
  * @param {string|Array} varNames - A variable name or array of variable names

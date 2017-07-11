@@ -194,6 +194,8 @@ For each variable name given, the wrapped component will receive the following p
 
 -   `initialValues`: An object containing initial values for the variables
 
+These options can also be passed in as props to the wrapped component.
+
 **Parameters**
 
 -   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
