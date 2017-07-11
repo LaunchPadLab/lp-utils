@@ -100,7 +100,7 @@ function getSet (names=[], options={}) {
 }
 
 // Set initial values if defined
-function getInitialState (varNames, initialValues) {
+function getInitialState (varNames, initialValues={}) {
   const state = {}
   varNames.forEach(varName => {
     state[varName] = initialValues[varName] || null
