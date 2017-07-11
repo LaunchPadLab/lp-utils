@@ -54,7 +54,7 @@ function componentWithClass (WrappedComponent, defaultClass) {
   }
   ClassWrapper.propTypes = {
     children: PropTypes.node,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
   }
   return ClassWrapper
 }
