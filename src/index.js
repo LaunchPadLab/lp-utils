@@ -1,3 +1,4 @@
+export { default as componentWithClass } from './component-with-class'
 export { deprecate, deprecateComponent } from './deprecate'
 export { default as flatToNested } from './flat-to-nested'
 export { default as getDisplayName } from './get-display-name'
