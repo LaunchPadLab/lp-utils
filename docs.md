@@ -2,6 +2,7 @@
 
 ### Table of Contents
 
+-   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
@@ -16,6 +17,45 @@
 -   [sortable](#sortable)
 -   [toggle](#toggle)
 -   [validate](#validate)
+
+## componentWithClass
+
+A function that adds a default className to a React component or DOM element.
+
+This className will be extended by any additional classNames given to the component.
+
+**Parameters**
+
+-   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component or DOM element that will receive the default class
+-   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
+
+**Examples**
+
+```javascript
+const Block = componentWithClass('section', 'section-block')
+const Header = componentWithClass('div', 'section-header')
+
+function Content () {
+  return (
+    <Block>
+      <Header className="highlighted">
+        This is some header text!
+      </Header>
+    </Block>
+  )
+}
+
+// This is equivalent to:
+// function Content () {
+//   return (
+//     <section className="section-block">
+//       <div className="section-header highlighted">
+//         This is some header text!
+//       </div>
+//     </section>
+//   )
+// }
+```
 
 ## deprecate
 
