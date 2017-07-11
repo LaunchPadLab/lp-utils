@@ -20,12 +20,13 @@
 
 ## componentWithClass
 
-A function that adds a default className to a React component.
-This className will be extended, not overridden, by any additional classNames.
+A function that adds a default className to a React component or DOM element.
+
+This className will be extended by any additional classNames given to the component.
 
 **Parameters**
 
--   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component that will receive the default class
+-   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component or DOM element that will receive the default class
 -   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
 
 **Examples**

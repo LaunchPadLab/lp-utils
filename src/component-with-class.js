@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 /**
- * A function that adds a default className to a React component.
- * This className will be extended, not overridden, by any additional classNames.
+ * A function that adds a default className to a React component or DOM element.
+ *
+ * This className will be extended by any additional classNames given to the component.
  * 
  * @name componentWithClass
  * @type Function
- * @param {Function|String} component - The React component that will receive the default class
+ * @param {Function|String} component - The React component or DOM element that will receive the default class
  * @param {String} defaultClass - The default class to add to the component
  *
  * @example
@@ -40,7 +41,7 @@ import classnames from 'classnames'
  */
 
 function componentWithClass (WrappedComponent, defaultClass) {
-  if (!defaultClass) throw 'You must provide a default class to componentWithClass()'
+  if (!defaultClass) throw 'You must provide a default className to componentWithClass()'
   function ClassWrapper ({ children, className, ...rest }) {
     return (
       <WrappedComponent 
