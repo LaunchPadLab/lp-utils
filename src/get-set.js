@@ -62,9 +62,6 @@ function getSet (names=[], options={}) {
   // Transform names to array
   const varNames = Array.isArray(names) ? names : [names]
 
-  // Parse options
-  const { initialValues={} } = options
-
   return WrappedComponent =>
 
     class Wrapper extends Component {
@@ -79,9 +76,10 @@ function getSet (names=[], options={}) {
        */
       static WrappedComponent = WrappedComponent
 
-      constructor () {
-        super()
-        this.state = getInitialState(varNames, initialValues)
+      constructor (props) {
+        super(props)
+        const config = { ...props, ...options }
+        this.state = getInitialState(varNames, config.initialValues)
         this.set = this.set.bind(this)
       }
       set (varName, value) {
@@ -100,7 +98,7 @@ function getSet (names=[], options={}) {
 }
 
 // Set initial values if defined
-function getInitialState (varNames, initialValues) {
+function getInitialState (varNames, initialValues={}) {
   const state = {}
   varNames.forEach(varName => {
     state[varName] = initialValues[varName] || null
