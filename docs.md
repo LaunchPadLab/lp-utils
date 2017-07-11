@@ -401,7 +401,7 @@ Given the path of a certain state slice, it returns a function that can be used 
 
 **Parameters**
 
--   `slicePath` **...[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Path to slice of state.
+-   `slicePath` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Path to slice of state.
 
 **Examples**
 
