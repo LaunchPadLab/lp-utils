@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
+import isUndef from 'lodash/isUndefined'
 import getDisplayName from './get-display-name'
 
 /**
@@ -103,7 +104,8 @@ function getSet (names=[], options={}) {
 function getInitialState (varNames, initialValues={}) {
   const state = {}
   varNames.forEach(varName => {
-    state[varName] = initialValues[varName] || null
+    const initialValue = initialValues[varName]
+    state[varName] = isUndef(initialValue) ? null : initialValue
   })
   return state
 }
