@@ -2,12 +2,14 @@
 
 ### Table of Contents
 
+-   [camelizeProps](#camelizeprops)
 -   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [getSet](#getset)
 -   [modifyProps](#modifyprops)
+-   [modifyProps](#modifyprops-1)
 -   [nestedToFlat](#nestedtoflat)
 -   [onLoad](#onload)
 -   [onMount](#onmount)
@@ -17,6 +19,36 @@
 -   [sortable](#sortable)
 -   [toggle](#toggle)
 -   [validate](#validate)
+
+## camelizeProps
+
+A function that returns a React HOC that converts a component's props into camel-case.
+This HOC is particularly useful in conjunction with [react_on_rails](https://github.com/shakacode/react_on_rails).
+
+**Parameters**
+
+-   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to camelize. If no argument is provided, all props will be camelized.
+
+**Examples**
+
+```javascript
+function ProfileComponent ({ fullName, profilePic }) {
+  return (
+    <div>
+      <h1>{ fullName }</h1>
+      <img src={ profilePic }/>
+    </div>
+  )
+}
+
+export default compose(
+   camelizeProps(),
+)(ProfileComponent)
+
+Now we can pass props { full_name, profile_pic } to this component.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## componentWithClass
 
@@ -232,6 +264,58 @@ export default compose(
      },
    }),
 )(TabBar)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## modifyProps
+
+A function that returns a React HOC that modifies a component's props using a given function.
+
+The provided function will be called with the component's props,
+and should return an object that will be merged with those props.
+
+**Parameters**
+
+-   `modFunction` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that modifies the component's props.
+
+**Examples**
+
+```javascript
+// modifyProps is used to create a custom save function by combining
+// props from mapStateToProps() and mapDispatchToProps()
+
+function SaveableProfile ({ name, save }) {
+  return (
+    <div>
+      <h1>{ name }</h1>
+      <button onClick={ save }>
+        Save this profile
+      </button>
+    </div>
+  )
+}
+
+function mapStateToProps (state) {
+   return {
+      id: selectors.profileId(state)
+   }
+}
+
+const mapDispatchToProps = { 
+   saveProfile: actions.saveProfile
+}
+
+function modify ({ id, saveProfile }) {
+   return {
+      save: () => saveProfile(id)
+   }
+}
+
+export default compose(
+   connect(mapStateToProps, mapDispatchToProps),
+   modifyProps(modify),
+)(SaveableProfile)
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
