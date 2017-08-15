@@ -1,5 +1,6 @@
 import React from 'react'
-import { camelizeKeys } from 'humps'
+import map from 'lodash/map'
+import { camelize, camelizeKeys } from 'humps'
 
 /**
  * A function that returns a React HOC that converts a component's props into camel-case.
@@ -30,8 +31,13 @@ import { camelizeKeys } from 'humps'
 **/
 
 // Camelizes specified keys in an object
-function camelizeSomeKeys (obj, keys=[]) {
-  return camelizeKeys(obj, (key, convert) => keys.includes(key) ? convert(key) : key)
+function camelizeSomeKeys (obj, keysToCamelize=[]) {
+  const converted = {}
+  map(obj, (value, key) => {
+    if (!keysToCamelize.includes(key)) return converted[key] = value
+    return converted[camelize(key)] = camelizeKeys(value)
+  })
+  return converted
 }
 
 export default function camelizeProps (options=[]) {
