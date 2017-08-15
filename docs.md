@@ -2,6 +2,7 @@
 
 ### Table of Contents
 
+-   [camelizeProps](#camelizeprops)
 -   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
@@ -17,6 +18,36 @@
 -   [sortable](#sortable)
 -   [toggle](#toggle)
 -   [validate](#validate)
+
+## camelizeProps
+
+A function that returns a React HOC that converts a component's props into camel-case.
+This HOC is particularly useful in conjunction with [react_on_rails](https://github.com/shakacode/react_on_rails).
+
+**Parameters**
+
+-   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to camelize. If no argument is provided, all props will be camelized.
+
+**Examples**
+
+```javascript
+function ProfileComponent ({ fullName, profilePic }) {
+  return (
+    <div>
+      <h1>{ fullName }</h1>
+      <img src={ profilePic }/>
+    </div>
+  )
+}
+
+export default compose(
+   camelizeProps(),
+)(ProfileComponent)
+
+// Now we can pass props { full_name, profile_pic } to the above component.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## componentWithClass
 
