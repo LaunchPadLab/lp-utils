@@ -45,7 +45,7 @@ export default compose(
    camelizeProps(),
 )(ProfileComponent)
 
-Now we can pass props { full_name, profile_pic } to this component.
+// Now we can pass props { full_name, profile_pic } to the above component.
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.

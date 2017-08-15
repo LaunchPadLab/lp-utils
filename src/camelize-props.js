@@ -25,7 +25,7 @@ import { camelizeKeys } from 'humps'
  *    camelizeProps(),
  * )(ProfileComponent)
  *
- * Now we can pass props { full_name, profile_pic } to this component.
+ * // Now we can pass props { full_name, profile_pic } to the above component.
  *
 **/
 
