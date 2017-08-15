@@ -26,3 +26,10 @@ test('camelizeProps camelizes multiple keys if an array argument is given', () =
   const propNames = Object.keys(component.props())
   expect(propNames).toEqual(['testProp', 'otherProp'])
 })
+
+test('camelizeProps camelizes nested keys', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = camelizeProps()(Wrapped)
+  const component = shallow(<Wrapper test_prop={{ other_prop: 'bar' }} />)
+  expect(component.props()).toEqual({ testProp: { otherProp: 'bar' } })
+})
