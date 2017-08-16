@@ -10,6 +10,7 @@
 -   [getSet](#getset)
 -   [modifyProps](#modifyprops)
 -   [nestedToFlat](#nestedtoflat)
+-   [omitProps](#omitprops)
 -   [onLoad](#onload)
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
@@ -348,6 +349,33 @@ nestedToFlat(nestedObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
+
+## omitProps
+
+A function that returns a React HOC that omits some or all of a component's props.
+Uses the lodash [omit](https://lodash.com/docs/4.17.4#omit) function under the hood.
+
+**Parameters**
+
+-   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to be omitted. If none are provided, all of the props will be omitted.
+
+**Examples**
+
+```javascript
+function Child ({ name }) {
+  return <h1>{ name }</h1>
+}
+
+const NamelessChild = omitProps()(Child)
+
+function Parent () {
+  return <NamelessChild name="Foo" />
+}
+
+// When parent is rendered, the <h1> will be empty.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## onLoad
 

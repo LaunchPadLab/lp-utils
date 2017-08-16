@@ -6,6 +6,7 @@ export { default as getDisplayName } from './get-display-name'
 export { default as getSet, getSetPropTypes } from './get-set'
 export { default as modifyProps } from './modify-props'
 export { default as nestedToFlat } from './nested-to-flat'
+export { default as omitProps } from './omit-props'
 export { default as onLoad } from './on-load'
 export {
   onMount,
