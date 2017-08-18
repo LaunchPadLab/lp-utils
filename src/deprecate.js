@@ -2,6 +2,7 @@
 
 import getDisplayName from './get-display-name'
 import { onMount } from './lifecycle'
+import once from 'lodash/once'
 
 /**
  * A function that logs a deprecation warning in the console every time a given function is called.
@@ -46,8 +47,9 @@ import { onMount } from './lifecycle'
 export function deprecate (func, message, log=console.warn) {
   if (typeof func !== 'function') throw 'You can only deprecate functions'
   const warning = message || defaultMessage(func)
+  const logWarning = once(() => log(`DEPRECATED: ${warning}`))
   return function wrapped (...args) {
-    log(`DEPRECATED: ${warning}`)
+    logWarning()
     return func(...args)
   }
 }
@@ -56,9 +58,8 @@ export function deprecate (func, message, log=console.warn) {
 export function deprecateComponent (message, log=console.warn) {
   return function wrap (Component) {
     const warning = message || defaultMessage(Component)
-    return onMount(
-      () => log(`DEPRECATED: ${warning}`)
-    )(Component)
+    const logWarning = once(() => log(`DEPRECATED: ${warning}`))
+    return onMount(logWarning)(Component)
   }
 }
 
