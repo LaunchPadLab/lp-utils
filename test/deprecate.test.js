@@ -28,6 +28,16 @@ test('deprecate() logs out custom message', () => {
   expect(val).toEqual('hi')
 })
 
+test('deprecate() only logs out messages once', () => {
+  const logger = jest.fn()
+  const func = () => 'hi'
+  const deprecatedFunc = deprecate(func, '', logger)
+  deprecatedFunc()
+  expect(logger.mock.calls.length).toEqual(1)
+  deprecatedFunc()
+  expect(logger.mock.calls.length).toEqual(1)
+})
+
 test('deprecate() rejects non-functions', () => {
   expect(() => deprecate()(666)).toThrow()
 })

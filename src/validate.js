@@ -3,11 +3,14 @@ import capitalize from 'lodash/capitalize'
 import lowerCase from 'lodash/lowerCase'
 import mapValues from 'lodash/mapValues' // not using fp on purpose
 import flatToNested from './flat-to-nested'
+import { deprecate } from './deprecate'
 
 /**
  * A wrapper around the `validate` function exported from
  * {@link https://validatejs.org/|Validate JS} to make it work seamlessly with
  * {@link http://redux-form.com/|Redux Form}.
+ *
+ * *Note: this function is deprecated and will be removed in the next major version. Import it from `@launchpadlab/lp-form` instead.*
  * 
  * @param {Object} constraints - A 'flat' object containing constraints in the
  * format specified by Validate JS. These are key-value pairs where the keys
@@ -46,7 +49,7 @@ import flatToNested from './flat-to-nested'
  * //   }
  * // }
  */
-export default function validate (constraints) {
+function validate (constraints) {
   return attributes => {
     
     // validate the data using Validate JS and our custom format
@@ -76,3 +79,5 @@ function stripNamespace (errors, attribute) {
 
   return errors.map(error => capitalize(error.replace(exclude, '')))
 }
+
+export default deprecate(validate)

@@ -651,6 +651,8 @@ A wrapper around the `validate` function exported from
 [Validate JS](https://validatejs.org/) to make it work seamlessly with
 [Redux Form](http://redux-form.com/).
 
+_Note: this function is deprecated and will be removed in the next major version. Import it from `@launchpadlab/lp-form` instead._
+
 **Parameters**
 
 -   `constraints` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A 'flat' object containing constraints in the
