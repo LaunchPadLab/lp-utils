@@ -29,10 +29,14 @@
     "lib/"
   ],
   "dependencies": {
+    "@launchpadlab/lp-redux-api": "^5.0.0",
+    "@launchpadlab/lp-requests": "^2.4.0",
     "classnames": "^2.2.5",
     "humps": "^2.0.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.8",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "validate.js": "^0.11.1"
   },
   "peerDependencies": {
