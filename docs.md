@@ -19,6 +19,7 @@
 -   [sortable](#sortable)
 -   [toggle](#toggle)
 -   [validate](#validate)
+-   [waitForResponse](#waitforresponse)
 
 ## camelizeProps
 
@@ -693,3 +694,36 @@ validate(constraints)(data)
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
 and returns a 'nested' object containing errors in the format specified by
 Redux Form.
+
+## waitForResponse
+
+A function that returns an HOC to handle rendering that depends on an API response. 
+A combination of [onLoad](#onload) and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
+
+**Parameters**
+
+-   `requestKeys` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A key or set of keys corresponding to `lp-redux-api` requests.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state. (optional, default `null`)
+
+**Examples**
+
+```javascript
+import { REQ_USERS, requestUsers } from 'actions'
+
+ function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ export default compose(
+   onMount(requestUsers),
+   waitForResponse(REQ_USERS),
+ )(MyComponent)
+ 
+ // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
+ // When the status of 'REQ_USERS' request becomes 'success' or 'failure', the component will render.
+ // Otherwise, the default `onLoad` loading component will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A higher order component (HOC).

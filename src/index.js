@@ -17,4 +17,4 @@ export { default as selectorForSlice } from './selector-for-slice'
 export { default as sortable } from './sortable'
 export { default as toggle, togglePropTypes } from './toggle'
 export { default as validate } from './validate'
-
+export { default as waitForResponse } from './wait-for-response'
