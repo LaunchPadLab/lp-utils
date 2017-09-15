@@ -718,7 +718,7 @@ import { REQ_USERS, requestUsers } from 'actions'
 
  export default compose(
    onMount(requestUsers),
-   onResponse(REQ_USERS),
+   waitForResponse(REQ_USERS),
  )(MyComponent)
  
  // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
