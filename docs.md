@@ -609,7 +609,7 @@ Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
 For each toggle name given, the wrapped component will receive the following props:
 
-`<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
+`<toggleName>`: a boolean with the current state of the toggle value, default = false.
 
 `set<ToggleName>`: a function that will set the toggle value to a given boolean value.
 
@@ -619,17 +619,17 @@ Toggle also exposes a `togglePropTypes` function to automatically generate PropT
 
 **Parameters**
 
--   `toggles` **...[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One or more toggle names.
+-   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))?= \[]** One or more toggle names.
 
 **Examples**
 
 ```javascript
-function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
+function ComponentWithTooltip ({ message, tooltipShown, toggleTooltipShown }) {
   return (
     <div>
-      <button onClick={ toggleTooltip }>Click Me</button>
+      <button onClick={ toggleTooltipShown }>Click Me</button>
       { 
-        tooltipActive &&
+        tooltipShown &&
         <div className="tooltip">
           { message }
         </div>
@@ -639,8 +639,9 @@ function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
 }
 
 ComponentWithTooltip.propTypes = {
-  ...togglePropTypes('tooltip'),
-  message: PropTypes.string
+  ...togglePropTypes('tooltipShown'),
+  message: PropTypes.string.isRequired,
+}
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
