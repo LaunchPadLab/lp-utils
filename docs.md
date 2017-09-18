@@ -2,23 +2,249 @@
 
 ### Table of Contents
 
--   [camelizeProps](#camelizeprops)
--   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
--   [flatToNested](#flattonested)
--   [getDisplayName](#getdisplayname)
 -   [getSet](#getset)
--   [modifyProps](#modifyprops)
--   [nestedToFlat](#nestedtoflat)
--   [omitProps](#omitprops)
--   [onLoad](#onload)
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
 -   [onUpdate](#onupdate)
+-   [toggle](#toggle)
+-   [camelizeProps](#camelizeprops)
+-   [componentWithClass](#componentwithclass)
+-   [flatToNested](#flattonested)
+-   [getDisplayName](#getdisplayname)
+-   [modifyProps](#modifyprops)
+-   [nestedToFlat](#nestedtoflat)
+-   [omitProps](#omitprops)
+-   [DefaultLoadingComponent](#defaultloadingcomponent)
 -   [selectorForSlice](#selectorforslice)
 -   [sortable](#sortable)
--   [toggle](#toggle)
 -   [validate](#validate)
+
+## deprecate
+
+A function that logs a deprecation warning in the console every time a given function is called.
+If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
+
+If no message is provided, the default deprecation message is:
+
+-   `<functionName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+// In my-func.js
+
+function myFunc () {
+  return 'hey!'
+}
+
+export default deprecate(myFunc, 'Do not use!')
+
+// In another file:
+
+import myFunc from './my-func'
+
+myFunc() // -> 'hey!'
+// Console will show warning: 'DEPRECATED: Do not use!'
+
+
+// If you're deprecating a React component, use deprecateComponent as an HOC:
+
+const MyComponent = () => <p>Hi</p>
+export default deprecateComponent('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
+```
+
+## getSet
+
+A function that returns a React HOC that provides values and corresponding setter functions to the wrapped component.
+For each variable name given, the wrapped component will receive the following props:
+
+-   `<variableName>`: the value, default = `null`.
+-   `set<variableName>`: a function that will set the value to a given value.
+
+`getSet` also exposes a `getSetPropTypes` function to automatically generate PropTypes for these props.
+
+**Options**
+
+`getSet` may be passed an options object containing the following keys:
+
+-   `initialValues`: An object containing initial values for the variables
+
+These options can also be passed in as props to the wrapped component.
+
+**Parameters**
+
+-   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
+
+**Examples**
+
+```javascript
+function TabBar ({ currentTab, setCurrentTab, tabs ... }) {
+  return (
+    <div>
+      { 
+        tabs.map(tab => 
+           <Tab 
+             key={ tab } 
+             isActive={ tab === currentTab }
+             onClick={ () => setCurrentTab(tab) }
+           />
+        )
+      }
+    </div>
+  )
+}
+
+TabBar.propTypes = {
+  ...getSetPropTypes('currentTab'),
+  tabs: PropTypes.arrayOf(PropTypes.number),
+}
+
+export default compose(
+   getSet('currentTab', { 
+     intialValues: { 
+       currentTab: 1,
+     },
+   }),
+)(TabBar)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onMount
+
+A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
+
+See also: [onUnmount](#onunmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidMount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onMount(componentDidMount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onUnmount
+
+A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
+
+See also: [onMount](#onmount), [onUpdate](#onupdate)
+
+**Parameters**
+
+-   `onComponentWillUnmount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentWillUnmount (props) {
+   console.log('Our current props: ', props)
+ }
+
+ export default onUnmount(componentWillUnmount)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## onUpdate
+
+A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
+
+See also: [onMount](#onmount), [onUnmount](#onunmount)
+
+**Parameters**
+
+-   `onComponentDidUpdate` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be passed the current props and the previous props.
+
+**Examples**
+
+```javascript
+function MyComponent () {
+   return (
+     ...
+   )
+ }
+
+ function componentDidUpdate (currentProps, previousProps) {
+   console.log('Props updated!', currentProps, previousProps)
+ }
+
+ export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## toggle
+
+A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
+For each toggle name given, the wrapped component will receive the following props:
+
+`<toggleName>`: a boolean with the current state of the toggle value, default = false.
+
+`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
+
+`toggle<ToggleName>`: a function that will toggle the toggle value.
+
+Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
+
+**Parameters**
+
+-   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))?= \[]** One or more toggle names.
+
+**Examples**
+
+```javascript
+function ComponentWithTooltip ({ message, tooltipShown, toggleTooltipShown }) {
+  return (
+    <div>
+      <button onClick={ toggleTooltipShown }>Click Me</button>
+      { 
+        tooltipShown &&
+        <div className="tooltip">
+          { message }
+        </div>
+      }
+    </div>
+  )
+}
+
+ComponentWithTooltip.propTypes = {
+  ...togglePropTypes('tooltipShown'),
+  message: PropTypes.string.isRequired,
+}
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## camelizeProps
 
@@ -87,48 +313,6 @@ function Content () {
 //     </section>
 //   )
 // }
-```
-
-## deprecate
-
-A function that logs a deprecation warning in the console every time a given function is called.
-If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
-
-If no message is provided, the default deprecation message is:
-
--   `<functionName> is deprecated and will be removed in the next version of this library.`
-
-**Parameters**
-
--   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
--   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
--   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
-
-**Examples**
-
-```javascript
-// In my-func.js
-
-function myFunc () {
-  return 'hey!'
-}
-
-export default deprecate(myFunc, 'Do not use!')
-
-// In another file:
-
-import myFunc from './my-func'
-
-myFunc() // -> 'hey!'
-// Console will show warning: 'DEPRECATED: Do not use!'
-
-
-// If you're deprecating a React component, use deprecateComponent as an HOC:
-
-const MyComponent = () => <p>Hi</p>
-export default deprecateComponent('Do not use this component')(MyComponent)
-
-// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
 ```
 
 ## flatToNested
@@ -209,64 +393,6 @@ getDisplayName(Foo)) // `Bar`
 ```
 
 Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
-
-## getSet
-
-A function that returns a React HOC that provides values and corresponding setter functions to the wrapped component.
-For each variable name given, the wrapped component will receive the following props:
-
--   `<variableName>`: the value, default = `null`.
--   `set<variableName>`: a function that will set the value to a given value.
-
-`getSet` also exposes a `getSetPropTypes` function to automatically generate PropTypes for these props.
-
-**Options**
-
-`getSet` may be passed an options object containing the following keys:
-
--   `initialValues`: An object containing initial values for the variables
-
-These options can also be passed in as props to the wrapped component.
-
-**Parameters**
-
--   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
-
-**Examples**
-
-```javascript
-function TabBar ({ currentTab, setCurrentTab, tabs ... }) {
-  return (
-    <div>
-      { 
-        tabs.map(tab => 
-           <Tab 
-             key={ tab } 
-             isActive={ tab === currentTab }
-             onClick={ () => setCurrentTab(tab) }
-           />
-        )
-      }
-    </div>
-  )
-}
-
-TabBar.propTypes = {
-  ...getSetPropTypes('currentTab'),
-  tabs: PropTypes.arrayOf(PropTypes.number),
-}
-
-export default compose(
-   getSet('currentTab', { 
-     intialValues: { 
-       currentTab: 1,
-     },
-   }),
-)(TabBar)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## modifyProps
 
@@ -377,13 +503,13 @@ function Parent () {
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## onLoad
+## DefaultLoadingComponent
 
 A function that returns a React HOC to handle renderWhen logic for loading state.
 
 For the renderWhen param, the type can be one of the following:
 
--   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
+-   String - The name of a prop to wait for. When the prop is truthy, the component will render.
 -   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
 -   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
 -   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
@@ -404,96 +530,12 @@ function MyComponent (name) {
 
  const renderWhen = 'name'
 
- onLoad(renderWhen, MyComponent)
+ waitFor(renderWhen, MyComponent)
  // When prop 'name' value evaluates to true, MyComponent will be rendered.
  // Otherwise, <p>Loading...</p> will be rendered.
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
-
-## onMount
-
-A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
-
-See also: [onUnmount](#onunmount), [onUpdate](#onupdate)
-
-**Parameters**
-
--   `onComponentDidMount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidMount (props) {
-   console.log('Our current props: ', props)
- }
-
- export default onMount(componentDidMount)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onUnmount
-
-A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
-
-See also: [onMount](#onmount), [onUpdate](#onupdate)
-
-**Parameters**
-
--   `onComponentWillUnmount` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be executed with the component's props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentWillUnmount (props) {
-   console.log('Our current props: ', props)
- }
-
- export default onUnmount(componentWillUnmount)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onUpdate
-
-A function that returns a React HOC to handle logic to be run during the `componentDidUpdate` lifecycle event.
-
-See also: [onMount](#onmount), [onUnmount](#onunmount)
-
-**Parameters**
-
--   `onComponentDidUpdate` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** A function or a string reference to a function that will be passed the current props and the previous props.
-
-**Examples**
-
-```javascript
-function MyComponent () {
-   return (
-     ...
-   )
- }
-
- function componentDidUpdate (currentProps, previousProps) {
-   console.log('Props updated!', currentProps, previousProps)
- }
-
- export default onUpdate(componentDidUpdate)(MyComponent)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## selectorForSlice
 
@@ -600,48 +642,6 @@ export default compose(
      sortPath: 'age',
    }),
 )(SortedPeopleList)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## toggle
-
-A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
-For each toggle name given, the wrapped component will receive the following props:
-
-`<toggleName>`: a boolean with the current state of the toggle value, default = false.
-
-`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
-
-`toggle<ToggleName>`: a function that will toggle the toggle value.
-
-Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
-
-**Parameters**
-
--   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))?= \[]** One or more toggle names.
-
-**Examples**
-
-```javascript
-function ComponentWithTooltip ({ message, tooltipShown, toggleTooltipShown }) {
-  return (
-    <div>
-      <button onClick={ toggleTooltipShown }>Click Me</button>
-      { 
-        tooltipShown &&
-        <div className="tooltip">
-          { message }
-        </div>
-      }
-    </div>
-  )
-}
-
-ComponentWithTooltip.propTypes = {
-  ...togglePropTypes('tooltipShown'),
-  message: PropTypes.string.isRequired,
-}
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
