@@ -2,7 +2,6 @@
 
 ### Table of Contents
 
--   [deprecate](#deprecate)
 -   [getSet](#getset)
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
@@ -10,6 +9,7 @@
 -   [toggle](#toggle)
 -   [camelizeProps](#camelizeprops)
 -   [componentWithClass](#componentwithclass)
+-   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
 -   [getDisplayName](#getdisplayname)
 -   [modifyProps](#modifyprops)
@@ -18,49 +18,6 @@
 -   [DefaultLoadingComponent](#defaultloadingcomponent)
 -   [selectorForSlice](#selectorforslice)
 -   [sortable](#sortable)
--   [validate](#validate)
-
-## deprecate
-
-A function that logs a deprecation warning in the console every time a given function is called.
-If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
-
-If no message is provided, the default deprecation message is:
-
--   `<functionName> is deprecated and will be removed in the next version of this library.`
-
-**Parameters**
-
--   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
--   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
--   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
-
-**Examples**
-
-```javascript
-// In my-func.js
-
-function myFunc () {
-  return 'hey!'
-}
-
-export default deprecate(myFunc, 'Do not use!')
-
-// In another file:
-
-import myFunc from './my-func'
-
-myFunc() // -> 'hey!'
-// Console will show warning: 'DEPRECATED: Do not use!'
-
-
-// If you're deprecating a React component, use deprecateComponent as an HOC:
-
-const MyComponent = () => <p>Hi</p>
-export default deprecateComponent('Do not use this component')(MyComponent)
-
-// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
-```
 
 ## getSet
 
@@ -313,6 +270,28 @@ function Content () {
 //     </section>
 //   )
 // }
+```
+
+## deprecate
+
+A function that returns a React HOC that displays a deprecation warning when a component is mounted.
+
+If no message is provided, the default deprecation message is:
+
+-   `<Component.displayName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+const MyComponent = () => <p>Hi</p>
+export default deprecate('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
 ```
 
 ## flatToNested
@@ -645,52 +624,3 @@ export default compose(
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## validate
-
-A wrapper around the `validate` function exported from
-[Validate JS](https://validatejs.org/) to make it work seamlessly with
-[Redux Form](http://redux-form.com/).
-
-_Note: this function is deprecated and will be removed in the next major version. Import it from `@launchpadlab/lp-form` instead._
-
-**Parameters**
-
--   `constraints` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A 'flat' object containing constraints in the
-    format specified by Validate JS. These are key-value pairs where the keys
-    correspond to keys in the data that will be validated. This is a 'flat'
-    object in that nested data must be accessed using a string path
-    (ex. 'foo.bar') as the key.
-
-**Examples**
-
-```javascript
-const data = {
-  name: 'Foo',
-  address: {
-    zip: '12'
-  }
-}
-
-const constraints = {
-  name: {
-    presence: true
-  },
-  'address.zip': {
-    presence: true,
-    length: { is: 5 }
-  }
-}
-
-validate(constraints)(data)
-
-// {
-//   address: {
-//     zip: ['Zip is the wrong length (should be 5 characters)']
-//   }
-// }
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
-and returns a 'nested' object containing errors in the format specified by
-Redux Form.

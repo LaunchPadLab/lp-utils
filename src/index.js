@@ -1,6 +1,6 @@
 export camelizeProps from './camelize-props'
 export componentWithClass from './component-with-class'
-export { deprecate, deprecateComponent } from './deprecate'
+export deprecate from './deprecate'
 export flatToNested from './flat-to-nested'
 export getDisplayName from './get-display-name'
 export getSet, { getSetPropTypes } from './get-set'
@@ -16,5 +16,3 @@ export {
 export selectorForSlice from './selector-for-slice'
 export sortable from './sortable'
 export toggle, { togglePropTypes } from './toggle'
-export validate from './validate'
-

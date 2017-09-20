@@ -1,54 +1,25 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { deprecate, deprecateComponent } from '../src'
+import { deprecate } from '../src'
 
 test('deprecate() logs out default message', () => {
   const logger = jest.fn()
 
-  const func = () => 'hi'
-  const deprecatedFunc = deprecate(func, '', logger)
+  const MyComponent = () => <p>Hi!</p>
+  const Deprecated = deprecate('', logger)(MyComponent)
+  mount(<Deprecated/>)
 
-  const val = deprecatedFunc()
-  
-  const defaultMessage = 'DEPRECATED: func is deprecated and will be removed in the next version of this library.'
-  expect(logger).toHaveBeenCalledWith(defaultMessage)
-  expect(val).toEqual('hi')
+  const expectedMessage = 'DEPRECATED: MyComponent is deprecated and will be removed in the next version of this library.'
+  expect(logger).toHaveBeenCalledWith(expectedMessage)
 })
 
 test('deprecate() logs out custom message', () => {
   const logger = jest.fn()
 
-  const func = () => 'hi'
-  const deprecatedFunc = deprecate(func, 'this is a custom deprecation message!', logger)
-
-  const val = deprecatedFunc()
-  
-  const defaultMessage = 'DEPRECATED: this is a custom deprecation message!'
-  expect(logger).toHaveBeenCalledWith(defaultMessage)
-  expect(val).toEqual('hi')
-})
-
-test('deprecate() only logs out messages once', () => {
-  const logger = jest.fn()
-  const func = () => 'hi'
-  const deprecatedFunc = deprecate(func, '', logger)
-  deprecatedFunc()
-  expect(logger.mock.calls.length).toEqual(1)
-  deprecatedFunc()
-  expect(logger.mock.calls.length).toEqual(1)
-})
-
-test('deprecate() rejects non-functions', () => {
-  expect(() => deprecate()(666)).toThrow()
-})
-
-test('deprecateComponent() logs out default message', () => {
-  const logger = jest.fn()
-
   const MyComponent = () => <p>Hi!</p>
-  const Deprecated = deprecateComponent('', logger)(MyComponent)
+  const Deprecated = deprecate('This is my custom message', logger)(MyComponent)
   mount(<Deprecated/>)
 
-  const defaultMessage = 'DEPRECATED: MyComponent is deprecated and will be removed in the next version of this library.'
-  expect(logger).toHaveBeenCalledWith(defaultMessage)
+  const expectedMessage = 'DEPRECATED: This is my custom message'
+  expect(logger).toHaveBeenCalledWith(expectedMessage)
 })
