@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import orderBy from 'lodash/orderBy'
 import get from 'lodash/fp/get'
-import getDisplayName from './get-display-name'
+import wrapDisplayName from 'recompose/wrapDisplayName'
 
 /**
  * A function that returns a React HOC that provides a sort function the wrapped component.
@@ -84,7 +84,7 @@ export default function sortable (options={}) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `Sortable(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'sortable')
 
       constructor (props) {
         super(props)

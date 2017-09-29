@@ -11,7 +11,6 @@
 -   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
 -   [flatToNested](#flattonested)
--   [getDisplayName](#getdisplayname)
 -   [modifyProps](#modifyprops)
 -   [nestedToFlat](#nestedtoflat)
 -   [omitProps](#omitprops)
@@ -323,55 +322,6 @@ flatToNested(flatObj)
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
-
-## getDisplayName
-
-Returns the display name of a React component.
-
-This is helpful for higher order components to call on their `wrapped` component so the
-name that shows up in the React Dev Tools includes the name `wrapped` component making
-debugging much easier.
-
-For React classes and named functional components, the name will be returned. For inline
-functional components without a name, `Component` will be returned. If `displayName` is 
-explicitly set, then that will be returned.
-
-**Parameters**
-
--   `Component` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A React component
-
-**Examples**
-
-```javascript
-// Inline functional component
-getDisplayName(() => <div></div>) // `Component`
-
-// Named functional components
-const Foo = () => <div></div>
-getDisplayName(Foo) // `Foo`
-
-function Foo () {
-  return <div></div>
-}
-getDisplayName(Foo) // `Foo`
-
-// Class
-class Foo extends React.Component {
-  render() {
-    return <div></div>
-  }
-}
-getDisplayName(Foo) // `Foo`
-
-// Explicit `displayName`
-class Foo extends React.Component {
-  static displayName = 'Bar'
-  render() { return <div></div> }
- }
-getDisplayName(Foo)) // `Bar`
-```
-
-Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
 
 ## modifyProps
 

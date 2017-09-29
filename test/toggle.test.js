@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import { shallow } from 'enzyme'
 import { toggle, togglePropTypes } from '../src/'
 
+test('toggle has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = toggle('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('toggle(Wrapped)')
+})
 
 test('toggle provides a toggle value and setter function', () => {
 

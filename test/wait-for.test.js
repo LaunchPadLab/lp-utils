@@ -2,6 +2,12 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { waitFor } from '../src'
 
+test('waitFor has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = waitFor('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('waitFor(Wrapped)')
+})
+
 test('`renderWhen` is a function', () => {
   const Wrapped = () => <h1>hi</h1>
   const renderWhen = ({ renderMe }) => renderMe

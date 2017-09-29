@@ -1,5 +1,5 @@
 import React from 'react'
-import getDisplayName from '../get-display-name'
+import wrapDisplayName from 'recompose/wrapDisplayName'
 import callWithProps from './call-with-props'
 
 /**
@@ -34,7 +34,7 @@ export default function onUpdate (onComponentDidUpdate) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnUpdate(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'onUpdate')
 
       /*
        * A reference to the wrapped component

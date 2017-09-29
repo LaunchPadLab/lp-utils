@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import isUndef from 'lodash/isUndefined'
-import getDisplayName from './get-display-name'
+import wrapDisplayName from 'recompose/wrapDisplayName'
 
 /**
  * A function that returns a React HOC that provides values and corresponding setter functions to the wrapped component.
@@ -72,7 +72,7 @@ function getSet (names=[], options={}) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `GetSet(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'getSet')
 
       /*
        * A reference to the wrapped component

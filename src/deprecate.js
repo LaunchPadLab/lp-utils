@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
 
-import getDisplayName from './get-display-name'
+import getDisplayName from 'recompose/getDisplayName'
 import { onMount } from './lifecycle'
 import once from 'lodash/once'
 

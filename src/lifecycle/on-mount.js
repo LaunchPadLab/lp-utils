@@ -1,5 +1,5 @@
 import React from 'react'
-import getDisplayName from '../get-display-name'
+import wrapDisplayName from 'recompose/wrapDisplayName'
 import callWithProps from './call-with-props'
 
 /**
@@ -34,7 +34,7 @@ export default function onMount (onComponentDidMount) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnMount(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'onMount')
 
       /*
        * A reference to the wrapped component
