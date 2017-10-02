@@ -10,9 +10,7 @@
 -   [camelizeProps](#camelizeprops)
 -   [componentWithClass](#componentwithclass)
 -   [deprecate](#deprecate)
--   [flatToNested](#flattonested)
 -   [modifyProps](#modifyprops)
--   [nestedToFlat](#nestedtoflat)
 -   [omitProps](#omitprops)
 -   [DefaultLoadingComponent](#defaultloadingcomponent)
 -   [selectorForSlice](#selectorforslice)
@@ -293,36 +291,6 @@ export default deprecate('Do not use this component')(MyComponent)
 // When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
 ```
 
-## flatToNested
-
-Returns an object where the keys are converted from string paths to nested objects.  This is the opposite of [nestedToFlat](#nestedtoflat).
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
-
-**Examples**
-
-```javascript
-const flatObj = {
-  'foo.bar.baz': 'hello',
-  space: 'world'
-}
-
-flatToNested(flatObj)
-
-// {
-//   foo: {
-//     bar: {
-//       baz: 'hello'
-//     }
-//   },
-//   space: 'world'
-// }
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
-
 ## modifyProps
 
 A function that returns a React HOC that modifies a component's props using a given function.
@@ -374,36 +342,6 @@ export default compose(
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## nestedToFlat
-
-Returns an object where the keys are string paths converted from nested objects. This is the opposite of [flatToNested](#flattonested).
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A nested object
--   `prefix` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A string prefix to prepend to the keys of root object, typically only used internally.
-
-**Examples**
-
-```javascript
-const nestedObj = {
-  foo: {
-    bar: {
-      baz: 'hello'
-    }
-  },
-  space: 'world'
-}
-
-nestedToFlat(nestedObj)
-
-// {
-//   'foo.bar.baz': 'hello',
-// }
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
 
 ## omitProps
 
