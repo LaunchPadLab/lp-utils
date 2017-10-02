@@ -1,4 +1,4 @@
-import set from 'lodash/fp/set'
+import { set } from './utils'
 
 /**
  * Returns an object where the keys are converted from string paths to nested objects.  This is the opposite of {@link nestedToFlat}.

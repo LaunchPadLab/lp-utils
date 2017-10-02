@@ -1,5 +1,5 @@
 import React from 'react'
-import wrapDisplayName from 'recompose/wrapDisplayName'
+import { wrapDisplayName } from '../utils'
 import callWithProps from './call-with-props'
 
 /**

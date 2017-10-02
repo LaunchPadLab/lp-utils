@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import orderBy from 'lodash/orderBy'
-import get from 'lodash/fp/get'
-import wrapDisplayName from 'recompose/wrapDisplayName'
+import { orderBy, get, wrapDisplayName } from './utils'
 
 /**
  * A function that returns a React HOC that provides a sort function the wrapped component.

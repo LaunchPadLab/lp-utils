@@ -1,8 +1,7 @@
 import React from 'react'
 import get from 'lodash/fp/get'
 import stubTrue from 'lodash/stubTrue'
-import wrapDisplayName from 'recompose/wrapDisplayName'
-import every from 'lodash/every'
+import { every, wrapDisplayName } from './utils'
 
 /**
  * A function that returns a React HOC to handle renderWhen logic for loading state.
