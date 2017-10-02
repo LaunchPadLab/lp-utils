@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import camelCase from 'lodash/camelCase'
-import getDisplayName from './get-display-name'
+import { camelize, wrapDisplayName } from './utils'
 
 /**
  * A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
@@ -52,7 +51,7 @@ export default function toggle (toggleNames=[]) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `Toggle(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'toggle')
 
       /*
        * A reference to the wrapped component
@@ -120,11 +119,11 @@ export default function toggle (toggleNames=[]) {
 }
 
 function setterFuncName (toggle) {
-  return camelCase(['set', toggle].join(' '))
+  return camelize(['set', toggle].join(' '))
 }
 
 function toggleFuncName (toggle) {
-  return camelCase(['toggle', toggle].join(' '))
+  return camelize(['toggle', toggle].join(' '))
 }
 
 export function togglePropTypes (toggleNames=[]) {

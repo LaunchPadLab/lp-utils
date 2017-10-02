@@ -1,8 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { shallow } from 'enzyme'
-import { getSet, getSetPropTypes } from '../src/'
+import { getSet, getSetPropTypes } from '../src'
 
+test('getSet has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = getSet('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('getSet(Wrapped)')
+})
 
 test('getSet provides a value and a setter function', () => {
 

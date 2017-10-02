@@ -1,4 +1,4 @@
-import getOr from 'lodash/fp/getOr'
+import { getOr } from './utils'
 
 /**
  *

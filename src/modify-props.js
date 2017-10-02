@@ -1,4 +1,5 @@
 import React from 'react'
+import { wrapDisplayName } from './utils'
 
 /**
  * A function that returns a React HOC that modifies a component's props using a given function.
@@ -55,9 +56,12 @@ const isValid = modFunction => !!modFunction && typeof modFunction === 'function
 
 export default function modifyProps (modFunction) {
   if (!isValid(modFunction)) throw 'modifyProps requires a valid modFunction argument.'
-  return WrappedComponent =>
-    function ModifyPropsWrapper (props) {
+  return WrappedComponent => {
+    function Wrapper (props) {
       const newProps = { ...props, ...modFunction(props) }
       return <WrappedComponent { ...newProps } />
     }
+    Wrapper.displayName = wrapDisplayName(WrappedComponent, 'modifyProps')
+    return Wrapper
+  }
 }

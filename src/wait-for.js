@@ -1,8 +1,7 @@
 import React from 'react'
 import get from 'lodash/fp/get'
 import stubTrue from 'lodash/stubTrue'
-import getDisplayName from './get-display-name'
-import every from 'lodash/every'
+import { every, wrapDisplayName } from './utils'
 
 /**
  * A function that returns a React HOC to handle renderWhen logic for loading state.
@@ -46,7 +45,7 @@ export default function waitFor (renderWhen, LoadingComponent=DefaultLoadingComp
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `waitFor(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'waitFor')
 
       /*
        * A reference to the wrapped component

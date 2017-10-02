@@ -2,6 +2,12 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { onUnmount } from '../../src'
 
+test('`onUnmount` has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = onUnmount('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('onUnmount(Wrapped)')
+})
+
 test('`onUnmount` works when param is a function', () => {
   const Wrapped = () => <h1>hi</h1>
   const componentWillUnmount = jest.fn()

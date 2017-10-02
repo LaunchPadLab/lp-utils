@@ -2,6 +2,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { modifyProps } from '../src/'
 
+test('modifyProps has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = modifyProps(() => {})(Wrapped)
+  expect(Wrapper.displayName).toEqual('modifyProps(Wrapped)')
+})
 
 test('modifyProps adds new props to component', () => {
   function modify () {

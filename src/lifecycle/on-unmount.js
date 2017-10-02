@@ -1,5 +1,5 @@
 import React from 'react'
-import getDisplayName from '../get-display-name'
+import { wrapDisplayName } from '../utils'
 import callWithProps from './call-with-props'
 
 /**
@@ -34,7 +34,7 @@ export default function onUnmount (onComponentWillUnmount) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnUnmount(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'onUnmount')
 
       /*
        * A reference to the wrapped component
