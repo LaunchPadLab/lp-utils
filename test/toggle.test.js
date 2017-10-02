@@ -48,6 +48,15 @@ test('toggle provides a toggle value and toggle function', () => {
   expect(component.props().test).toBe(false)
 })
 
+test('toggle overrides given props', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = toggle('foo')(Wrapped)
+  const component = shallow(<Wrapper foo={ 666 }/>)
+  // Check props
+  const { foo } = component.props()
+  expect(foo).toBe(false)
+})
+
 test('toggleProptypes creates proptypes with the correct name and value', () => {
   const expectedPropTypes = {
     test: PropTypes.bool,
