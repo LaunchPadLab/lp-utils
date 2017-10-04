@@ -89,6 +89,15 @@ test('getSet can receive falsey initial values', () => {
 
 })
 
+test('getSet overrides given props', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = getSet('foo')(Wrapped)
+  const component = shallow(<Wrapper foo={ 666 }/>)
+  // Check props
+  const { foo } = component.props()
+  expect(foo).toBe(null)
+})
+
 test('getSetPropTypes creates proptypes with the correct name and value', () => {
   const expectedPropTypes = {
     test: PropTypes.any,

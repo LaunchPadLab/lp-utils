@@ -89,9 +89,9 @@ function getSet (names=[], options={}) {
       render () {
         return (
           <WrappedComponent {...{ 
+            ...this.props,
             ...buildSetters(varNames, this.set),
             ...this.state,
-            ...this.props,
           }}/>
         )
       }
