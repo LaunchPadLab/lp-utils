@@ -1,5 +1,5 @@
 export camelizeProps from './camelize-props'
-export componentWithClass from './component-with-class'
+export addDefaultClass from './add-default-class'
 export deprecate from './deprecate'
 export getSet, { getSetPropTypes } from './get-set'
 export modifyProps from './modify-props'
