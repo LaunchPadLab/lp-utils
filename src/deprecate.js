@@ -45,7 +45,7 @@ import once from 'lodash/once'
  */
 
 export function deprecate (func, message, log=console.warn) {
-  if (typeof func !== 'function') throw 'You can only deprecate functions'
+  if (typeof func !== 'function') throw new Error('You can only deprecate functions')
   const warning = message || defaultMessage(func)
   const logWarning = once(() => log(`DEPRECATED: ${warning}`))
   return function wrapped (...args) {

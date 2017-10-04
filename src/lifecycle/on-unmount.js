@@ -1,6 +1,6 @@
 import React from 'react'
 import getDisplayName from '../get-display-name'
-import callWithProps from './call-with-props'
+import { callWithProps } from './helpers'
 
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.

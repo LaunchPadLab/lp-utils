@@ -54,7 +54,7 @@ import React from 'react'
 const isValid = modFunction => !!modFunction && typeof modFunction === 'function'
 
 export default function modifyProps (modFunction) {
-  if (!isValid(modFunction)) throw 'modifyProps requires a valid modFunction argument.'
+  if (!isValid(modFunction)) throw new Error('modifyProps requires a valid modFunction argument.')
   return WrappedComponent =>
     function ModifyPropsWrapper (props) {
       const newProps = { ...props, ...modFunction(props) }
