@@ -1,12 +1,12 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { selectors } from '@launchpadlab/lp-redux-api'
-import onLoad from './on-load'
+import waitFor from './wait-for'
 import omitProps from './omit-props'
 
 /**
  * A function that returns an HOC to handle rendering that depends on an API response. 
- * A combination of {@link onLoad} and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
+ * A combination of {@link waitFor} and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
  *
  * @name waitForResponse
  * @param {String|Array} requestKeys - A key or set of keys corresponding to `lp-redux-api` requests.
@@ -29,7 +29,7 @@ import omitProps from './omit-props'
  *  
  *  // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
  *  // When the status of 'REQ_USERS' request becomes 'success' or 'failure', the component will render.
- *  // Otherwise, the default `onLoad` loading component will be rendered.
+ *  // Otherwise, the default `waitFor` loading component will be rendered.
 **/
 
 export default function waitForResponse (requestKeys=[], LoadingComponent) {
@@ -42,7 +42,7 @@ export default function waitForResponse (requestKeys=[], LoadingComponent) {
   return WrappedComponent => 
     compose(
       connect(mapStateToProps),
-      onLoad('_doLoad', LoadingComponent),
+      waitFor('_doLoad', LoadingComponent),
       omitProps('_doLoad'),
     )(WrappedComponent)
 }

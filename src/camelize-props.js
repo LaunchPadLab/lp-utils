@@ -1,6 +1,5 @@
 import React from 'react'
-import map from 'lodash/map'
-import { camelize, camelizeKeys } from 'humps'
+import { camelize, camelizeKeys, map } from './utils'
 
 /**
  * A function that returns a React HOC that converts a component's props into camel-case.

@@ -1,6 +1,6 @@
 import React from 'react'
-import getDisplayName from '../get-display-name'
 import { callWithProps } from './helpers'
+import { wrapDisplayName } from '../utils'
 
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.
@@ -34,7 +34,7 @@ export default function onMount (onComponentDidMount) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnMount(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'onMount')
 
       /*
        * A reference to the wrapped component

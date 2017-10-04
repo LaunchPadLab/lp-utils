@@ -1,5 +1,5 @@
 import React from 'react'
-import omit from 'lodash/fp/omit'
+import { omit } from './utils'
 
 /**
  * A function that returns a React HOC that omits some or all of a component's props.

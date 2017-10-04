@@ -1,6 +1,6 @@
 import React from 'react'
-import getDisplayName from '../get-display-name'
 import { callWithProps } from './helpers'
+import { wrapDisplayName } from '../utils'
 
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentWillUnmount` lifecycle event.
@@ -34,7 +34,7 @@ export default function onUnmount (onComponentWillUnmount) {
       /*
        * A friendly name for React devtools and errors
        */
-      static displayName = `OnUnmount(${getDisplayName(WrappedComponent)})`
+      static displayName = wrapDisplayName(WrappedComponent, 'onUnmount')
 
       /*
        * A reference to the wrapped component
