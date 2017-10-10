@@ -2,214 +2,20 @@
 
 ### Table of Contents
 
--   [camelizeProps](#camelizeprops)
--   [componentWithClass](#componentwithclass)
--   [deprecate](#deprecate)
--   [flatToNested](#flattonested)
--   [getDisplayName](#getdisplayname)
 -   [getSet](#getset)
--   [modifyProps](#modifyprops)
--   [nestedToFlat](#nestedtoflat)
--   [omitProps](#omitprops)
--   [onLoad](#onload)
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
 -   [onUpdate](#onupdate)
+-   [toggle](#toggle)
+-   [camelizeProps](#camelizeprops)
+-   [addDefaultClass](#adddefaultclass)
+-   [deprecate](#deprecate)
+-   [modifyProps](#modifyprops)
+-   [omitProps](#omitprops)
+-   [DefaultLoadingComponent](#defaultloadingcomponent)
 -   [selectorForSlice](#selectorforslice)
 -   [sortable](#sortable)
--   [toggle](#toggle)
--   [validate](#validate)
 -   [waitForResponse](#waitforresponse)
-
-## camelizeProps
-
-A function that returns a React HOC that converts a component's props into camel-case.
-This HOC is particularly useful in conjunction with [react_on_rails](https://github.com/shakacode/react_on_rails).
-
-**Parameters**
-
--   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to camelize. If no argument is provided, all props will be camelized.
-
-**Examples**
-
-```javascript
-function ProfileComponent ({ fullName, profilePic }) {
-  return (
-    <div>
-      <h1>{ fullName }</h1>
-      <img src={ profilePic }/>
-    </div>
-  )
-}
-
-export default compose(
-   camelizeProps(),
-)(ProfileComponent)
-
-// Now we can pass props { full_name, profile_pic } to the above component.
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## componentWithClass
-
-A function that adds a default className to a React component or DOM element.
-
-This className will be extended by any additional classNames given to the component.
-
-**Parameters**
-
--   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component or DOM element that will receive the default class
--   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
-
-**Examples**
-
-```javascript
-const Block = componentWithClass('section', 'section-block')
-const Header = componentWithClass('div', 'section-header')
-
-function Content () {
-  return (
-    <Block>
-      <Header className="highlighted">
-        This is some header text!
-      </Header>
-    </Block>
-  )
-}
-
-// This is equivalent to:
-// function Content () {
-//   return (
-//     <section className="section-block">
-//       <div className="section-header highlighted">
-//         This is some header text!
-//       </div>
-//     </section>
-//   )
-// }
-```
-
-## deprecate
-
-A function that logs a deprecation warning in the console every time a given function is called.
-If you're deprecating a React component, use `deprecateComponent` as indicated in the example below.
-
-If no message is provided, the default deprecation message is:
-
--   `<functionName> is deprecated and will be removed in the next version of this library.`
-
-**Parameters**
-
--   `func` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function that is being deprecated
--   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
--   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
-
-**Examples**
-
-```javascript
-// In my-func.js
-
-function myFunc () {
-  return 'hey!'
-}
-
-export default deprecate(myFunc, 'Do not use!')
-
-// In another file:
-
-import myFunc from './my-func'
-
-myFunc() // -> 'hey!'
-// Console will show warning: 'DEPRECATED: Do not use!'
-
-
-// If you're deprecating a React component, use deprecateComponent as an HOC:
-
-const MyComponent = () => <p>Hi</p>
-export default deprecateComponent('Do not use this component')(MyComponent)
-
-// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
-```
-
-## flatToNested
-
-Returns an object where the keys are converted from string paths to nested objects.  This is the opposite of [nestedToFlat](#nestedtoflat).
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
-
-**Examples**
-
-```javascript
-const flatObj = {
-  'foo.bar.baz': 'hello',
-  space: 'world'
-}
-
-flatToNested(flatObj)
-
-// {
-//   foo: {
-//     bar: {
-//       baz: 'hello'
-//     }
-//   },
-//   space: 'world'
-// }
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A potentially nested object
-
-## getDisplayName
-
-Returns the display name of a React component.
-
-This is helpful for higher order components to call on their `wrapped` component so the
-name that shows up in the React Dev Tools includes the name `wrapped` component making
-debugging much easier.
-
-For React classes and named functional components, the name will be returned. For inline
-functional components without a name, `Component` will be returned. If `displayName` is 
-explicitly set, then that will be returned.
-
-**Parameters**
-
--   `Component` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A React component
-
-**Examples**
-
-```javascript
-// Inline functional component
-getDisplayName(() => <div></div>) // `Component`
-
-// Named functional components
-const Foo = () => <div></div>
-getDisplayName(Foo) // `Foo`
-
-function Foo () {
-  return <div></div>
-}
-getDisplayName(Foo) // `Foo`
-
-// Class
-class Foo extends React.Component {
-  render() {
-    return <div></div>
-  }
-}
-getDisplayName(Foo) // `Foo`
-
-// Explicit `displayName`
-class Foo extends React.Component {
-  static displayName = 'Bar'
-  render() { return <div></div> }
- }
-getDisplayName(Foo)) // `Bar`
-```
-
-Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The component name if it is possible to determine, otherwise `Component`
 
 ## getSet
 
@@ -231,8 +37,9 @@ These options can also be passed in as props to the wrapped component.
 
 **Parameters**
 
+-   `names`   (optional, default `[]`)
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
 -   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
 
 **Examples**
 
@@ -268,149 +75,6 @@ export default compose(
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## modifyProps
-
-A function that returns a React HOC that modifies a component's props using a given function.
-
-The provided function will be called with the component's props,
-and should return an object that will be merged with those props.
-
-**Parameters**
-
--   `modFunction` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that modifies the component's props.
-
-**Examples**
-
-```javascript
-// modifyProps is used to create a custom save function by combining
-// props from mapStateToProps() and mapDispatchToProps()
-
-function SaveableProfile ({ name, save }) {
-  return (
-    <div>
-      <h1>{ name }</h1>
-      <button onClick={ save }>
-        Save this profile
-      </button>
-    </div>
-  )
-}
-
-function mapStateToProps (state) {
-   return {
-      id: selectors.profileId(state)
-   }
-}
-
-const mapDispatchToProps = { 
-   saveProfile: actions.saveProfile
-}
-
-function modify ({ id, saveProfile }) {
-   return {
-      save: () => saveProfile(id)
-   }
-}
-
-export default compose(
-   connect(mapStateToProps, mapDispatchToProps),
-   modifyProps(modify),
-)(SaveableProfile)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## nestedToFlat
-
-Returns an object where the keys are string paths converted from nested objects. This is the opposite of [flatToNested](#flattonested).
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A nested object
--   `prefix` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A string prefix to prepend to the keys of root object, typically only used internally.
-
-**Examples**
-
-```javascript
-const nestedObj = {
-  foo: {
-    bar: {
-      baz: 'hello'
-    }
-  },
-  space: 'world'
-}
-
-nestedToFlat(nestedObj)
-
-// {
-//   'foo.bar.baz': 'hello',
-// }
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object of key-value pairs where the keys are strings of the form `part1[.part2, ...]`
-
-## omitProps
-
-A function that returns a React HOC that omits some or all of a component's props.
-Uses the lodash [omit](https://lodash.com/docs/4.17.4#omit) function under the hood.
-
-**Parameters**
-
--   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to be omitted. If none are provided, all of the props will be omitted.
-
-**Examples**
-
-```javascript
-function Child ({ name }) {
-  return <h1>{ name }</h1>
-}
-
-const NamelessChild = omitProps()(Child)
-
-function Parent () {
-  return <NamelessChild name="Foo" />
-}
-
-// When parent is rendered, the <h1> will be empty.
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## onLoad
-
-A function that returns a React HOC to handle renderWhen logic for loading state.
-
-For the renderWhen param, the type can be one of the following:
-
--   String - The name of a prop to wait for. When the prop is defined and not equal to 'loading', the component will render.
--   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
--   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
--   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
-
-**Parameters**
-
--   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
--   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
-
-**Examples**
-
-```javascript
-function MyComponent (name) {
-   return (
-     <p>{name}</p>
-   )
- }
-
- const renderWhen = 'name'
-
- onLoad(renderWhen, MyComponent)
- // When prop 'name' value evaluates to true, MyComponent will be rendered.
- // Otherwise, <p>Loading...</p> will be rendered.
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
 
 ## onMount
 
@@ -496,6 +160,254 @@ function MyComponent () {
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
+## toggle
+
+A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
+For each toggle name given, the wrapped component will receive the following props:
+
+`<toggleName>`: a boolean with the current state of the toggle value, default = false.
+
+`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
+
+`toggle<ToggleName>`: a function that will toggle the toggle value.
+
+Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
+
+**Parameters**
+
+-   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** One or more toggle names. (optional, default `[]`)
+
+**Examples**
+
+```javascript
+function ComponentWithTooltip ({ message, tooltipShown, toggleTooltipShown }) {
+  return (
+    <div>
+      <button onClick={ toggleTooltipShown }>Click Me</button>
+      { 
+        tooltipShown &&
+        <div className="tooltip">
+          { message }
+        </div>
+      }
+    </div>
+  )
+}
+
+ComponentWithTooltip.propTypes = {
+  ...togglePropTypes('tooltipShown'),
+  message: PropTypes.string.isRequired,
+}
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## camelizeProps
+
+A function that returns a React HOC that converts a component's props into camel-case.
+This HOC is particularly useful in conjunction with [react_on_rails](https://github.com/shakacode/react_on_rails).
+
+**Parameters**
+
+-   `obj`  
+-   `keysToCamelize`   (optional, default `[]`)
+-   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to camelize. If no argument is provided, all props will be camelized.
+
+**Examples**
+
+```javascript
+function ProfileComponent ({ fullName, profilePic }) {
+  return (
+    <div>
+      <h1>{ fullName }</h1>
+      <img src={ profilePic }/>
+    </div>
+  )
+}
+
+export default compose(
+   camelizeProps(),
+)(ProfileComponent)
+
+// Now we can pass props { full_name, profile_pic } to the above component.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## addDefaultClass
+
+A function that returns a React HOC that adds a default className to the wrapped React component.
+
+This className will be extended by any additional classNames given to the component.
+
+**Parameters**
+
+-   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
+
+**Examples**
+
+```javascript
+const Block = addDefaultClass('section-block')('section')
+const Header = addDefaultClass('section-header')('div')
+
+function Content () {
+  return (
+    <Block>
+      <Header className="highlighted">
+        This is some header text!
+      </Header>
+    </Block>
+  )
+}
+
+// This is equivalent to:
+// function Content () {
+//   return (
+//     <section className="section-block">
+//       <div className="section-header highlighted">
+//         This is some header text!
+//       </div>
+//     </section>
+//   )
+// }
+```
+
+## deprecate
+
+A function that returns a React HOC that displays a deprecation warning when a component is mounted.
+
+If no message is provided, the default deprecation message is:
+
+-   `<Component.displayName> is deprecated and will be removed in the next version of this library.`
+
+**Parameters**
+
+-   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function for logging the message (optional, default `console.warn`)
+
+**Examples**
+
+```javascript
+const MyComponent = () => <p>Hi</p>
+export default deprecate('Do not use this component')(MyComponent)
+
+// When component is mounted, console will show warning: 'DEPRECATED: Do not use this component'
+```
+
+## modifyProps
+
+A function that returns a React HOC that modifies a component's props using a given function.
+
+The provided function will be called with the component's props,
+and should return an object that will be merged with those props.
+
+**Parameters**
+
+-   `modFunction` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that modifies the component's props.
+
+**Examples**
+
+```javascript
+// modifyProps is used to create a custom save function by combining
+// props from mapStateToProps() and mapDispatchToProps()
+
+function SaveableProfile ({ name, save }) {
+  return (
+    <div>
+      <h1>{ name }</h1>
+      <button onClick={ save }>
+        Save this profile
+      </button>
+    </div>
+  )
+}
+
+function mapStateToProps (state) {
+   return {
+      id: selectors.profileId(state)
+   }
+}
+
+const mapDispatchToProps = { 
+   saveProfile: actions.saveProfile
+}
+
+function modify ({ id, saveProfile }) {
+   return {
+      save: () => saveProfile(id)
+   }
+}
+
+export default compose(
+   connect(mapStateToProps, mapDispatchToProps),
+   modifyProps(modify),
+)(SaveableProfile)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## omitProps
+
+A function that returns a React HOC that omits some or all of a component's props.
+Uses the lodash [omit](https://lodash.com/docs/4.17.4#omit) function under the hood.
+
+**Parameters**
+
+-   `options`  
+-   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to be omitted. If none are provided, all of the props will be omitted.
+
+**Examples**
+
+```javascript
+function Child ({ name }) {
+  return <h1>{ name }</h1>
+}
+
+const NamelessChild = omitProps()(Child)
+
+function Parent () {
+  return <NamelessChild name="Foo" />
+}
+
+// When parent is rendered, the <h1> will be empty.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## DefaultLoadingComponent
+
+A function that returns a React HOC to handle renderWhen logic for loading state.
+
+For the renderWhen param, the type can be one of the following:
+
+-   String - The name of a prop to wait for. When the prop is truthy, the component will render.
+-   Function - A function that recieves the component props and returns a boolean. When it returns true, the component will render.
+-   Array - An array of prop names to wait for. Each prop name will be evaluated using the `String` rules.
+-   Object - An object where the keys are prop names and the values are expected values. When the prop values are equal to the expected values, the component will render.
+
+**Parameters**
+
+-   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
+
+**Examples**
+
+```javascript
+function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ const renderWhen = 'name'
+
+ waitFor(renderWhen, MyComponent)
+ // When prop 'name' value evaluates to true, MyComponent will be rendered.
+ // Otherwise, <p>Loading...</p> will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
+
 ## selectorForSlice
 
 A Redux helper.
@@ -566,7 +478,7 @@ unless `false` is passed as the second parameter._
 
 **Parameters**
 
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
 
 **Examples**
 
@@ -605,105 +517,15 @@ export default compose(
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## toggle
-
-A function that returns a React HOC that provides a toggle value and toggle function to the wrapped component.
-For each toggle name given, the wrapped component will receive the following props:
-
-`<toggleName>Active`: a boolean with the current state of the toggle value, default = false.
-
-`set<ToggleName>`: a function that will set the toggle value to a given boolean value.
-
-`toggle<ToggleName>`: a function that will toggle the toggle value.
-
-Toggle also exposes a `togglePropTypes` function to automatically generate PropTypes for these props.
-
-**Parameters**
-
--   `toggles` **...[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One or more toggle names.
-
-**Examples**
-
-```javascript
-function ComponentWithTooltip ({ message, tooltipActive, toggleTooltip, ... }) {
-  return (
-    <div>
-      <button onClick={ toggleTooltip }>Click Me</button>
-      { 
-        tooltipActive &&
-        <div className="tooltip">
-          { message }
-        </div>
-      }
-    </div>
-  )
-}
-
-ComponentWithTooltip.propTypes = {
-  ...togglePropTypes('tooltip'),
-  message: PropTypes.string
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
-
-## validate
-
-A wrapper around the `validate` function exported from
-[Validate JS](https://validatejs.org/) to make it work seamlessly with
-[Redux Form](http://redux-form.com/).
-
-_Note: this function is deprecated and will be removed in the next major version. Import it from `@launchpadlab/lp-form` instead._
-
-**Parameters**
-
--   `constraints` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A 'flat' object containing constraints in the
-    format specified by Validate JS. These are key-value pairs where the keys
-    correspond to keys in the data that will be validated. This is a 'flat'
-    object in that nested data must be accessed using a string path
-    (ex. 'foo.bar') as the key.
-
-**Examples**
-
-```javascript
-const data = {
-  name: 'Foo',
-  address: {
-    zip: '12'
-  }
-}
-
-const constraints = {
-  name: {
-    presence: true
-  },
-  'address.zip': {
-    presence: true,
-    length: { is: 5 }
-  }
-}
-
-validate(constraints)(data)
-
-// {
-//   address: {
-//     zip: ['Zip is the wrong length (should be 5 characters)']
-//   }
-// }
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** validate - A function that takes an object of data to be validated
-and returns a 'nested' object containing errors in the format specified by
-Redux Form.
-
 ## waitForResponse
 
 A function that returns an HOC to handle rendering that depends on an API response. 
-A combination of [onLoad](#onload) and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
+A combination of [waitFor](waitFor) and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
 
 **Parameters**
 
--   `requestKeys` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A key or set of keys corresponding to `lp-redux-api` requests.
--   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state. (optional, default `null`)
+-   `requestKeys` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A key or set of keys corresponding to `lp-redux-api` requests. (optional, default `[]`)
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A component to render during the loading state. (optional, default `null`)
 
 **Examples**
 
@@ -723,7 +545,7 @@ import { REQ_USERS, requestUsers } from 'actions'
  
  // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
  // When the status of 'REQ_USERS' request becomes 'success' or 'failure', the component will render.
- // Otherwise, the default `onLoad` loading component will be rendered.
+ // Otherwise, the default `waitFor` loading component will be rendered.
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A higher order component (HOC).

@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import { shallow } from 'enzyme'
 import { toggle, togglePropTypes } from '../src/'
 
+test('toggle has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = toggle('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('toggle(Wrapped)')
+})
 
 test('toggle provides a toggle value and setter function', () => {
 
@@ -11,15 +16,15 @@ test('toggle provides a toggle value and setter function', () => {
   const component = shallow(<Wrapper/>)
 
   // Check props
-  const { testActive, setTest } = component.props()
-  expect(testActive).toBe(false)
+  const { test, setTest } = component.props()
+  expect(test).toBe(false)
   expect(typeof setTest).toBe('function')
 
   // Call setter
   setTest(true)
-  expect(component.props().testActive).toBe(true)
+  expect(component.props().test).toBe(true)
   setTest(false)
-  expect(component.props().testActive).toBe(false)
+  expect(component.props().test).toBe(false)
 
   // Don't allow non-bool values
   expect(() => setTest('string')).toThrow()
@@ -32,25 +37,34 @@ test('toggle provides a toggle value and toggle function', () => {
   const component = shallow(<Wrapper/>)
 
   // Check props
-  const { testActive, toggleTest } = component.props()
-  expect(testActive).toBe(false)
+  const { test, toggleTest } = component.props()
+  expect(test).toBe(false)
   expect(typeof toggleTest).toBe('function')
 
   // Call toggle
   toggleTest()
-  expect(component.props().testActive).toBe(true)
+  expect(component.props().test).toBe(true)
   toggleTest()
-  expect(component.props().testActive).toBe(false)
+  expect(component.props().test).toBe(false)
+})
+
+test('toggle overrides given props', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = toggle('foo')(Wrapped)
+  const component = shallow(<Wrapper foo={ 666 }/>)
+  // Check props
+  const { foo } = component.props()
+  expect(foo).toBe(false)
 })
 
 test('toggleProptypes creates proptypes with the correct name and value', () => {
   const expectedPropTypes = {
-    testActive: PropTypes.bool,
+    test: PropTypes.bool,
     setTest: PropTypes.func,
     toggleTest: PropTypes.func,
-    test2Active: PropTypes.bool,
+    test2: PropTypes.bool,
     setTest2: PropTypes.func,
     toggleTest2: PropTypes.func,
   }
-  expect(togglePropTypes('test', 'test2')).toEqual(expectedPropTypes)
+  expect(togglePropTypes(['test', 'test2'])).toEqual(expectedPropTypes)
 })

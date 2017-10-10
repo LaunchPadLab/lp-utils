@@ -2,6 +2,12 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { onUpdate } from '../../src/'
 
+test('`onUpdate` has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = onUpdate('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('onUpdate(Wrapped)')
+})
+
 test('`onUpdate` works when param is a function', () => {
   const Wrapped = () => <h1>hi</h1>
   const componentDidUpdate = jest.fn()

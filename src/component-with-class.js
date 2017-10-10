@@ -41,7 +41,7 @@ import classnames from 'classnames'
  */
 
 function componentWithClass (WrappedComponent, defaultClass) {
-  if (!defaultClass) throw 'You must provide a default className to componentWithClass()'
+  if (!defaultClass) throw new Error('You must provide a default className to componentWithClass()')
   function ClassWrapper ({ children, className, ...rest }) {
     return (
       <WrappedComponent 

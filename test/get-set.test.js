@@ -1,8 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { shallow } from 'enzyme'
-import { getSet, getSetPropTypes } from '../src/'
+import { getSet, getSetPropTypes } from '../src'
 
+test('getSet has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = getSet('test')(Wrapped)
+  expect(Wrapper.displayName).toEqual('getSet(Wrapped)')
+})
 
 test('getSet provides a value and a setter function', () => {
 
@@ -82,6 +87,15 @@ test('getSet can receive falsey initial values', () => {
   const { foo } = component.props()
   expect(foo).toBe(false)
 
+})
+
+test('getSet overrides given props', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = getSet('foo')(Wrapped)
+  const component = shallow(<Wrapper foo={ 666 }/>)
+  // Check props
+  const { foo } = component.props()
+  expect(foo).toBe(null)
 })
 
 test('getSetPropTypes creates proptypes with the correct name and value', () => {

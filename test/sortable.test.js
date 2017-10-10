@@ -2,6 +2,12 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { sortable } from '../src/'
 
+test('sortable has correct displayName', () => {
+  const Wrapped = () => <h1>Hi</h1>
+  const Wrapper = sortable()(Wrapped)
+  expect(Wrapper.displayName).toEqual('sortable(Wrapped)')
+})
+
 test('sortable provides a working sort function', () => {
   const Wrapped = () => <h1>Hi</h1>
   const Wrapper = sortable({
