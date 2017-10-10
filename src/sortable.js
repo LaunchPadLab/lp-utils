@@ -153,13 +153,13 @@ export default function sortable (options={}) {
 // Proptypes for components wrapped by sortable
 
 export const sortablePropTypes = {
-  ascending: PropTypes.bool,
-  descending: PropTypes.bool,
-  sortPath: PropTypes.string,
-  sort: PropTypes.func,
-  setAscending: PropTypes.func,
-  setDescending: PropTypes.func,
-  setSortPath: PropTypes.func,
-  setSortFunc: PropTypes.func,
+  ascending: PropTypes.bool.isRequired,
+  descending: PropTypes.bool.isRequired,
+  sortPath: PropTypes.string.isRequired,
+  sort: PropTypes.func.isRequired,
+  setAscending: PropTypes.func.isRequired,
+  setDescending: PropTypes.func.isRequired,
+  setSortPath: PropTypes.func.isRequired,
+  setSortFunc: PropTypes.func.isRequired,
 }
 

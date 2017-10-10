@@ -6,6 +6,7 @@
 -   [onMount](#onmount)
 -   [onUnmount](#onunmount)
 -   [onUpdate](#onupdate)
+-   [sortable](#sortable)
 -   [toggle](#toggle)
 -   [camelizeProps](#camelizeprops)
 -   [addDefaultClass](#adddefaultclass)
@@ -13,7 +14,6 @@
 -   [modifyProps](#modifyprops)
 -   [omitProps](#omitprops)
 -   [DefaultLoadingComponent](#defaultloadingcomponent)
--   [sortable](#sortable)
 -   [waitForResponse](#waitforresponse)
 
 ## getSet
@@ -155,6 +155,76 @@ function MyComponent () {
  }
 
  export default onUpdate(componentDidUpdate)(MyComponent)
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## sortable
+
+A function that returns a React HOC that provides a sort function the wrapped component.
+Given a `sortPath`, this function will compare the values of two objects at that path.
+The wrapped component will receive the following props:
+
+-   `ascending`: a boolean indicating whether the sort is ascending or not
+-   `descending`: a boolean indicating whether the sort is descending or not
+-   `sortPath`: a string indicating the current sort comparison path in dot notation
+-   `sort`: a function that can be used to sort an array of objects
+-   `setAscending`: a function for setting `ascending`
+-   `setDescending`: a function for setting `descending`
+-   `setSortPath`: a function for setting `sortPath`
+-   `setSortFunc`: a function for setting a custom [comparison function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Description) that will be used in `sort`
+
+`sortable` also exposes a `sortablePropTypes` object for these props.
+
+_Note: `setSortPath()` will automatically reset `ascending` to `true` when the current path is changed.
+Additionally, it will toggle `ascending` if the same path is selected twice in a row, 
+unless `false` is passed as the second parameter._
+
+**Options**
+
+`getSet` may be passed an options object containing the following keys:
+
+-   `ascending`: Whether the sort is initially ascending (default=`true`)
+-   `sortPath`: The initial `sortPath`
+-   `sortFunc`: The initial `sortFunc`
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
+
+**Examples**
+
+```javascript
+function SortedPeopleList ({ people, sort, ascending, setAscending }) {
+  return (
+    <div>
+      <ol>
+        { 
+          sort(people).map(person => 
+            <li>`${ person.name } - ${ person.age }`</li>
+          )
+        }
+      </ol>
+      <button onClick={ () => setAscending(!ascending) }>
+        Reverse order
+      </button>
+    </div>
+  )
+}
+
+SortedPeopleList.propTypes = {
+  ...sortablePropTypes,
+  people: PropTypes.arrayOf(PropTypes.shape({
+   name: PropTypes.string.isRequired,
+   age: PropTypes.string.isRequired,
+  })),
+}
+
+export default compose(
+   sortable({ 
+     sortPath: 'age',
+   }),
+)(SortedPeopleList)
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
@@ -406,76 +476,6 @@ function MyComponent (name) {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
-
-## sortable
-
-A function that returns a React HOC that provides a sort function the wrapped component.
-Given a `sortPath`, this function will compare the values of two objects at that path.
-The wrapped component will receive the following props:
-
--   `ascending`: a boolean indicating whether the sort is ascending or not
--   `descending`: a boolean indicating whether the sort is descending or not
--   `sortPath`: a string indicating the current sort comparison path in dot notation
--   `sort`: a function that can be used to sort an array of objects
--   `setAscending`: a function for setting `ascending`
--   `setDescending`: a function for setting `descending`
--   `setSortPath`: a function for setting `sortPath`
--   `setSortFunc`: a function for setting a custom [comparison function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Description) that will be used in `sort`
-
-`sortable` also exposes a `sortablePropTypes` object for these props.
-
-_Note: `setSortPath()` will automatically reset `ascending` to `true` when the current path is changed.
-Additionally, it will toggle `ascending` if the same path is selected twice in a row, 
-unless `false` is passed as the second parameter._
-
-**Options**
-
-`getSet` may be passed an options object containing the following keys:
-
--   `ascending`: Whether the sort is initially ascending (default=`true`)
--   `sortPath`: The initial `sortPath`
--   `sortFunc`: The initial `sortFunc`
-
-**Parameters**
-
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
-
-**Examples**
-
-```javascript
-function SortedPeopleList ({ people, sort, ascending, setAscending }) {
-  return (
-    <div>
-      <ol>
-        { 
-          sort(people).map(person => 
-            <li>`${ person.name } - ${ person.age }`</li>
-          )
-        }
-      </ol>
-      <button onClick={ () => setAscending(!ascending) }>
-        Reverse order
-      </button>
-    </div>
-  )
-}
-
-SortedPeopleList.propTypes = {
-  ...sortablePropTypes,
-  people: PropTypes.arrayOf(PropTypes.shape({
-   name: PropTypes.string.isRequired,
-   age: PropTypes.string.isRequired,
-  })),
-}
-
-export default compose(
-   sortable({ 
-     sortPath: 'age',
-   }),
-)(SortedPeopleList)
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
 ## waitForResponse
 

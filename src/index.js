@@ -10,6 +10,6 @@ export {
   onUnmount,
   onUpdate,
 } from './lifecycle'
-export sortable from './sortable'
+export sortable, { sortablePropTypes } from './sortable'
 export toggle, { togglePropTypes } from './toggle'
 export waitForResponse from './wait-for-response'
