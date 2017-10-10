@@ -8,7 +8,7 @@
 -   [onUpdate](#onupdate)
 -   [toggle](#toggle)
 -   [camelizeProps](#camelizeprops)
--   [componentWithClass](#componentwithclass)
+-   [addDefaultClass](#adddefaultclass)
 -   [deprecate](#deprecate)
 -   [modifyProps](#modifyprops)
 -   [omitProps](#omitprops)
@@ -36,8 +36,9 @@ These options can also be passed in as props to the wrapped component.
 
 **Parameters**
 
+-   `names`   (optional, default `[]`)
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
 -   `varNames` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A variable name or array of variable names
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
 
 **Examples**
 
@@ -173,7 +174,7 @@ Toggle also exposes a `togglePropTypes` function to automatically generate PropT
 
 **Parameters**
 
--   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))?= \[]** One or more toggle names.
+-   `toggleNames` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** One or more toggle names. (optional, default `[]`)
 
 **Examples**
 
@@ -207,6 +208,8 @@ This HOC is particularly useful in conjunction with [react_on_rails](https://git
 
 **Parameters**
 
+-   `obj`  
+-   `keysToCamelize`   (optional, default `[]`)
 -   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to camelize. If no argument is provided, all props will be camelized.
 
 **Examples**
@@ -230,22 +233,21 @@ export default compose(
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## componentWithClass
+## addDefaultClass
 
-A function that adds a default className to a React component or DOM element.
+A function that returns a React HOC that adds a default className to the wrapped React component.
 
 This className will be extended by any additional classNames given to the component.
 
 **Parameters**
 
--   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component or DOM element that will receive the default class
 -   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
 
 **Examples**
 
 ```javascript
-const Block = componentWithClass('section', 'section-block')
-const Header = componentWithClass('div', 'section-header')
+const Block = addDefaultClass('section-block')('section')
+const Header = componentWithClass('section-header')('div')
 
 function Content () {
   return (
@@ -280,7 +282,7 @@ If no message is provided, the default deprecation message is:
 **Parameters**
 
 -   `message` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A custom message to display
--   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A function for logging the message (optional, default `console.warn`)
+-   `log` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function for logging the message (optional, default `console.warn`)
 
 **Examples**
 
@@ -350,6 +352,7 @@ Uses the lodash [omit](https://lodash.com/docs/4.17.4#omit) function under the h
 
 **Parameters**
 
+-   `options`  
 -   `propName` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** The name(s) of the prop(s) to be omitted. If none are provided, all of the props will be omitted.
 
 **Examples**
@@ -384,7 +387,7 @@ For the renderWhen param, the type can be one of the following:
 **Parameters**
 
 -   `renderWhen` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** A rule indicating when the wrapped component may render.
--   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A component to render during the loading state, will be passed the current props. If not provided, `<p>Loading...</p>` will be rendered. (optional, default `null`)
 
 **Examples**
 
@@ -474,7 +477,7 @@ unless `false` is passed as the second parameter._
 
 **Parameters**
 
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above.
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the HOC as specified above. (optional, default `{}`)
 
 **Examples**
 
