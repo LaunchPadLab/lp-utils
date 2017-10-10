@@ -8,7 +8,7 @@
 -   [onUpdate](#onupdate)
 -   [toggle](#toggle)
 -   [camelizeProps](#camelizeprops)
--   [componentWithClass](#componentwithclass)
+-   [addDefaultClass](#adddefaultclass)
 -   [deprecate](#deprecate)
 -   [modifyProps](#modifyprops)
 -   [omitProps](#omitprops)
@@ -234,23 +234,21 @@ export default compose(
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
 
-## componentWithClass
+## addDefaultClass
 
-A function that adds a default className to a React component or DOM element.
+A function that returns a React HOC that adds a default className to the wrapped React component.
 
 This className will be extended by any additional classNames given to the component.
 
 **Parameters**
 
--   `WrappedComponent`  
 -   `defaultClass` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The default class to add to the component
--   `component` **([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) \| [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The React component or DOM element that will receive the default class
 
 **Examples**
 
 ```javascript
-const Block = componentWithClass('section', 'section-block')
-const Header = componentWithClass('div', 'section-header')
+const Block = addDefaultClass('section-block')('section')
+const Header = addDefaultClass('section-header')('div')
 
 function Content () {
   return (
