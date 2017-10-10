@@ -15,7 +15,7 @@ import { wrapDisplayName } from './utils'
  * @example
  *
  * const Block = addDefaultClass('section-block')('section')
- * const Header = componentWithClass('section-header')('div')
+ * const Header = addDefaultClass('section-header')('div')
  *
  * function Content () {
  *   return (

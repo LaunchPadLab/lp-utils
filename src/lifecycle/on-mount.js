@@ -1,6 +1,6 @@
 import React from 'react'
+import { callWithProps } from './helpers'
 import { wrapDisplayName } from '../utils'
-import callWithProps from './call-with-props'
 
 /**
  * A function that returns a React HOC to handle logic to be run during the `componentDidMount` lifecycle event.

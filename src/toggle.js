@@ -90,7 +90,7 @@ export default function toggle (toggleNames=[]) {
        * Set the active state for the provided toggle name
        */
       set (toggleName, val) {
-        if (typeof val !== 'boolean') throw 'Toggle can only be set to a boolean value.'
+        if (typeof val !== 'boolean') throw new Error('Toggle can only be set to a boolean value.')
         this.setState({ [toggleName]: val })
       }
 

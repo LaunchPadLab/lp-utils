@@ -15,6 +15,7 @@
 -   [DefaultLoadingComponent](#defaultloadingcomponent)
 -   [selectorForSlice](#selectorforslice)
 -   [sortable](#sortable)
+-   [waitForResponse](#waitforresponse)
 
 ## getSet
 
@@ -247,7 +248,7 @@ This className will be extended by any additional classNames given to the compon
 
 ```javascript
 const Block = addDefaultClass('section-block')('section')
-const Header = componentWithClass('section-header')('div')
+const Header = addDefaultClass('section-header')('div')
 
 function Content () {
   return (
@@ -515,3 +516,36 @@ export default compose(
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A HOC that can be used to wrap a component.
+
+## waitForResponse
+
+A function that returns an HOC to handle rendering that depends on an API response. 
+A combination of [waitFor](waitFor) and selectors from [lp-redux-api](https://github.com/LaunchPadLab/lp-redux-api).
+
+**Parameters**
+
+-   `requestKeys` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** A key or set of keys corresponding to `lp-redux-api` requests. (optional, default `[]`)
+-   `LoadingComponent` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A component to render during the loading state. (optional, default `null`)
+
+**Examples**
+
+```javascript
+import { REQ_USERS, requestUsers } from 'actions'
+
+ function MyComponent (name) {
+   return (
+     <p>{name}</p>
+   )
+ }
+
+ export default compose(
+   onMount(requestUsers),
+   waitForResponse(REQ_USERS),
+ )(MyComponent)
+ 
+ // requestUsers() dispatches an LP_API action with key 'REQ_USERS' on component mount.
+ // When the status of 'REQ_USERS' request becomes 'success' or 'failure', the component will render.
+ // Otherwise, the default `waitFor` loading component will be rendered.
+```
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A higher order component (HOC).

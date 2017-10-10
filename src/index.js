@@ -13,3 +13,4 @@ export {
 export selectorForSlice from './selector-for-slice'
 export sortable from './sortable'
 export toggle, { togglePropTypes } from './toggle'
+export waitForResponse from './wait-for-response'
