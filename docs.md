@@ -13,7 +13,6 @@
 -   [modifyProps](#modifyprops)
 -   [omitProps](#omitprops)
 -   [DefaultLoadingComponent](#defaultloadingcomponent)
--   [selectorForSlice](#selectorforslice)
 -   [sortable](#sortable)
 -   [waitForResponse](#waitforresponse)
 
@@ -407,45 +406,6 @@ function MyComponent (name) {
 ```
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Returns a higher order component (HOC) to handle conditional logic for loading states.
-
-## selectorForSlice
-
-A Redux helper.
-Given the path of a certain state slice, it returns a function that can be used to create state selectors (helpful for `mapStateToProps()`).
-
-**Parameters**
-
--   `slicePath` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Path to slice of state.
-
-**Examples**
-
-```javascript
-import { selectorForSlice } from 'lp-utils'
-
-const state = {
-  userSlice: {
-    user: {
-      name: 'test'
-    }
-  }
-}
-
-const select = selectorForSlice('userSlice')
-
-//The resulting select() function has arguments (path, defaultValue)
-
-const Selectors = {}
-Selectors.user = select('user')
-Selectors.username = select('user.name', 'defaultName')
-
-export { Selectors }
-
-// These selectors can be called in mapStateToProps() like so:
-// Selectors.user(state) => { name: 'test' }
-// Selectors.username(state) => 'test'
-```
-
-Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** A function that can be used to create state selectors.
 
 ## sortable
 
