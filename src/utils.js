@@ -1,17 +1,22 @@
 // Utils for our utils!
 
 // Lodash
-export every from 'lodash/every'
-export isUndef from 'lodash/isUndefined'
-export map from 'lodash/map'
-export orderBy from 'lodash/orderBy'
-export omit from 'lodash/fp/omit'
-export once from 'lodash/once'
+export {
+  every,
+  isUndefined as isUndef,
+  map,
+  orderBy,
+  once,
+  stubTrue,
+} from 'lodash'
 
-// Lodash FP
-export get from 'lodash/fp/get'
-export getOr from 'lodash/fp/getOr'
-export set from 'lodash/fp/set'
+// Lodash FP 
+export {
+  get,
+  getOr,
+  omit,
+  set,
+} from 'lodash/fp'
 
 // Recompose
 export getDisplayName from 'recompose/getDisplayName'
