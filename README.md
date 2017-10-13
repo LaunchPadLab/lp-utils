@@ -1,3 +1,7 @@
+*WARNING: This package is deprecated and is no longer supported. Use [lp-hoc](https://github.com/LaunchPadLab/lp-hoc) instead.*
+
+---
+
 [ ![Codeship Status for LaunchPadLab/lp-utils](https://app.codeship.com/projects/54a4f610-ec93-0134-81d5-1ac2cf405306/status?branch=master)](https://app.codeship.com/projects/208365) [![Code Climate](https://codeclimate.com/repos/58cc18b439f0e80291000106/badges/3b5fda5d0356fd73a175/gpa.svg)](https://codeclimate.com/repos/58cc18b439f0e80291000106/feed) [![Test Coverage](https://codeclimate.com/repos/58cc18b439f0e80291000106/badges/3b5fda5d0356fd73a175/coverage.svg)](https://codeclimate.com/repos/58cc18b439f0e80291000106/coverage)
 
 # LP Utils
